@@ -27,49 +27,75 @@ public class VistaOdontologo {
     }
 
     public DatoOdontologo pedirDatosOdontologo() {
-        DatoOdontologo dato = new DatoOdontologo();
-
         System.out.println("\n=== REGISTRO DE ODONTOLOGO ===");
-
-        System.out.print("Tipo de especialidad (general / ortodoncia / endodoncia): ");
-        dato.setTipoEspecialidad(scanner.nextLine());
+        System.out.println("Tipo de especialidad:");
+        System.out.println("1. Odontologia General");
+        System.out.println("2. Ortodoncia");
+        System.out.println("3. Endodoncia");
+        System.out.print("Seleccione una opcion: ");
+        int opcion = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Nombre: ");
-        dato.setNombre(scanner.nextLine());
+        String nombre = scanner.nextLine();
 
         System.out.print("Apellido: ");
-        dato.setApellido(scanner.nextLine());
+        String apellido = scanner.nextLine();
 
         System.out.print("DNI: ");
-        dato.setDni(Integer.parseInt(scanner.nextLine()));
+        Integer dni = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Matricula: ");
-        dato.setMatricula(scanner.nextLine());
+        String matricula = scanner.nextLine();
 
-        return dato;
+        switch (opcion) {
+            case 1:
+                return new DatoOdontologoGeneral(null, nombre, apellido, dni, matricula);
+            case 2:
+                return new DatoOrtodoncista(null, nombre, apellido, dni, matricula);
+            case 3:
+                return new DatoEndodoncista(null, nombre, apellido, dni, matricula);
+            default:
+                System.out.println("Opcion invalida.");
+                return null;
+        }
     }
 
     public DatoOdontologo pedirDatosOdontologoActualizado() {
-        DatoOdontologo dato = new DatoOdontologo();
-
         System.out.println("\n=== MODIFICACION DE ODONTOLOGO ===");
 
         System.out.print("ID del odontologo: ");
-        dato.setId(Long.parseLong(scanner.nextLine()));
+        Long id = Long.parseLong(scanner.nextLine());
 
         System.out.print("Nuevo nombre: ");
-        dato.setNombre(scanner.nextLine());
+        String nombre = scanner.nextLine();
 
         System.out.print("Nuevo apellido: ");
-        dato.setApellido(scanner.nextLine());
+        String apellido = scanner.nextLine();
 
         System.out.print("Nuevo DNI: ");
-        dato.setDni(Integer.parseInt(scanner.nextLine()));
+        Integer dni = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Nueva matricula: ");
-        dato.setMatricula(scanner.nextLine());
+        String matricula = scanner.nextLine();
 
-        return dato;
+        System.out.println("Tipo de especialidad:");
+        System.out.println("1. Odontologia General");
+        System.out.println("2. Ortodoncia");
+        System.out.println("3. Endodoncia");
+        System.out.print("Seleccione una opcion: ");
+        int opcion = Integer.parseInt(scanner.nextLine());
+
+        switch (opcion) {
+            case 1:
+                return new DatoOdontologoGeneral(id, nombre, apellido, dni, matricula);
+            case 2:
+                return new DatoOrtodoncista(id, nombre, apellido, dni, matricula);
+            case 3:
+                return new DatoEndodoncista(id, nombre, apellido, dni, matricula);
+            default:
+                System.out.println("Opcion invalida.");
+                return null;
+        }
     }
 
     public Long pedirIdOdontologo() {

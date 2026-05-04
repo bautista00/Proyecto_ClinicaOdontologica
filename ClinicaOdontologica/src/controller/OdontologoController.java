@@ -1,9 +1,6 @@
 package controller;
 
-import entity.Endodoncista;
 import entity.Odontologo;
-import entity.OdontologoGeneral;
-import entity.Ortodoncista;
 import service.OdontologoServiceImpl;
 
 import java.util.List;
@@ -16,18 +13,7 @@ public class OdontologoController {
         this.odontologoService = odontologoService;
     }
 
-    public Odontologo registrarOdontologo(String tipoEspecialidad,
-                                          String nombre,
-                                          String apellido,
-                                          Integer dni,
-                                          String matricula) {
-
-        Odontologo odontologo = crearOdontologoSegunEspecialidad(tipoEspecialidad, nombre, apellido, dni, matricula);
-        if (odontologo == null) {
-            System.out.println("Error: tipo de especialidad invalido.");
-            return null;
-        }
-
+    public Odontologo registrarOdontologo(Odontologo odontologo) {
         return odontologoService.registrar(odontologo);
     }
 
@@ -64,35 +50,5 @@ public class OdontologoController {
 
     public boolean eliminarOdontologo(Long id) {
         return odontologoService.eliminar(id);
-    }
-
-    private Odontologo crearOdontologoSegunEspecialidad(String tipoEspecialidad,
-                                                        String nombre,
-                                                        String apellido,
-                                                        Integer dni,
-                                                        String matricula) {
-
-        if (tipoEspecialidad == null || tipoEspecialidad.isBlank()) {
-            return null;
-        }
-
-        String tipoNormalizado = tipoEspecialidad.trim().toLowerCase();
-
-        switch (tipoNormalizado) {
-            case "general":
-            case "odontologia general":
-                return new OdontologoGeneral(nombre, apellido, dni, matricula);
-
-            case "ortodoncista":
-            case "ortodoncia":
-                return new Ortodoncista(nombre, apellido, dni, matricula);
-
-            case "endodoncista":
-            case "endodoncia":
-                return new Endodoncista(nombre, apellido, dni, matricula);
-
-            default:
-                return null;
-        }
     }
 }

@@ -2,11 +2,11 @@ package view;
 
 import java.util.Scanner;
 
-public class SistemaView {
+public class VistaMenu {
 
     private Scanner scanner;
 
-    public SistemaView() {
+    public VistaMenu() {
         this.scanner = new Scanner(System.in);
     }
 
@@ -23,5 +23,22 @@ public class SistemaView {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    public boolean pedirConfirmacion(String mensaje) {
+        System.out.print(mensaje + " (s/n): ");
+        String respuesta = scanner.nextLine();
+        return respuesta.equalsIgnoreCase("s");
+    }
+
+    public void pausar() {
+        System.out.print("\nPresione ENTER para continuar...");
+        scanner.nextLine();
+    }
+
+    public void cerrar() {
+        if (scanner != null) {
+            scanner.close();
+        }
     }
 }
