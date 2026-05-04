@@ -4,24 +4,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Turno {
+
     private static Long contadorId = 0L;
 
     private Long id;
     private Paciente paciente;
-    private Secretaria secretaria;
     private Odontologo odontologo;
+    private Secretaria secretaria;
     private LocalDate fecha;
     private LocalTime hora;
     private String motivoConsulta;
     private EstadoTurno estado;
 
-    public Turno() {
-    }
-
     public Turno(Paciente paciente, Odontologo odontologo, Secretaria secretaria,
                  LocalDate fecha, LocalTime hora, String motivoConsulta) {
-        contadorId++;
-        this.id = contadorId;
+        this.id = generarId();
         this.paciente = paciente;
         this.odontologo = odontologo;
         this.secretaria = secretaria;
@@ -31,52 +28,84 @@ public class Turno {
         this.estado = EstadoTurno.PENDIENTE;
     }
 
-    public static Long getContadorId() {return contadorId;}
+    private static Long generarId() {
+        return ++contadorId;
+    }
 
-    public static void setContadorId(Long contadorId) {Turno.contadorId = contadorId;}
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() {return id;}
+    public Paciente getPaciente() {
+        return paciente;
+    }
 
-    public void setId(Long id) {this.id = id;}
+    public Odontologo getOdontologo() {
+        return odontologo;
+    }
 
-    public Paciente getPaciente() {return paciente;}
+    public void setOdontologo(Odontologo odontologo) {
+        this.odontologo = odontologo;
+    }
 
-    public void setPaciente(Paciente paciente) {this.paciente = paciente;}
+    public Secretaria getSecretaria() {
+        return secretaria;
+    }
 
-    public Secretaria getSecretaria() {return secretaria;}
+    public void setSecretaria(Secretaria secretaria) {
+        this.secretaria = secretaria;
+    }
 
-    public void setSecretaria(Secretaria secretaria) {this.secretaria = secretaria;}
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
-    public LocalDate getFecha() {return fecha;}
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-    public void setFecha(LocalDate fecha) {this.fecha = fecha;}
+    public LocalTime getHora() {
+        return hora;
+    }
 
-    public LocalTime getHora() {return hora;}
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
+    }
 
-    public void setHora(LocalTime hora) {this.hora = hora;}
+    public String getMotivoConsulta() {
+        return motivoConsulta;
+    }
 
-    public EstadoTurno getEstado() {return estado;}
+    public void setMotivoConsulta(String motivoConsulta) {
+        this.motivoConsulta = motivoConsulta;
+    }
 
-    public void setEstado(EstadoTurno estado) {this.estado = estado;}
+    public EstadoTurno getEstado() {
+        return estado;
+    }
 
-    public Odontologo getOdontologo() {return odontologo;}
-
-    public String getMotivoConsulta() {return motivoConsulta;}
+    public void setEstado(EstadoTurno estado) {
+        this.estado = estado;
+    }
 
     public String generarMensajeRecordatorio() {
-        return "\n--- Turno ---" +
-                "\n Paciente: " + paciente.getNombre() + " " + paciente.getApellido() +
-                "\n Odontologo: " + odontologo.getNombre() + " " + odontologo.getApellido() +
-                "\n Especialidad: " + odontologo.getEspecialidad() +
-                "\n Secretaria: " + secretaria.getNombre() + " " + secretaria.getApellido() +
-                "\n Motivo: " + motivoConsulta +
-                "\n Fecha: " + fecha +
-                "\n Hora: " + hora +
-                "\n Estado: " + estado;
+        return "Recordatorio de turno: Paciente " + paciente.getNombre() + " " + paciente.getApellido() +
+                ", Odontologo " + odontologo.getNombre() + " " + odontologo.getApellido() +
+                ", fecha " + fecha +
+                ", hora " + hora +
+                ", motivo " + motivoConsulta + ".";
     }
 
     @Override
     public String toString() {
-        return generarMensajeRecordatorio();
+        return "\n=== Informacion del Turno ===" +
+                "\nID: " + id +
+                "\nPaciente: " + paciente.getNombre() + " " + paciente.getApellido() +
+                "\nOdontologo: " + odontologo.getNombre() + " " + odontologo.getApellido() +
+                "\nSecretaria: " + secretaria.getNombre() + " " + secretaria.getApellido() +
+                "\nFecha: " + fecha +
+                "\nHora: " + hora +
+                "\nMotivo: " + motivoConsulta +
+                "\nEstado: " + estado;
     }
 }

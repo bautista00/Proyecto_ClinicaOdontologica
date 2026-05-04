@@ -1,9 +1,7 @@
 package view;
 
-public class DatoPaciente {
-    private String nombre;
-    private String apellido;
-    private Integer dni;
+public class DatoPaciente extends DatoPersona {
+
     private String email;
     private String calle;
     private Integer numero;
@@ -11,28 +9,19 @@ public class DatoPaciente {
     private String provincia;
     private Boolean obraSocial;
 
-    public String getNombre() {
-        return nombre;
+    public DatoPaciente() {
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public Integer getDni() {
-        return dni;
-    }
-
-    public void setDni(Integer dni) {
-        this.dni = dni;
+    public DatoPaciente(Long id, String nombre, String apellido, Integer dni,
+                        String email, String calle, Integer numero,
+                        String localidad, String provincia, Boolean obraSocial) {
+        super(id, nombre, apellido, dni);
+        this.email = email;
+        this.calle = calle;
+        this.numero = numero;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.obraSocial = obraSocial;
     }
 
     public String getEmail() {

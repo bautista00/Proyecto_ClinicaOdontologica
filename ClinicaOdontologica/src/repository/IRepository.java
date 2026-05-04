@@ -2,11 +2,15 @@ package repository;
 
 import java.util.List;
 
-public interface IRepository<T>{
+public interface IRepository<T> {
 
-    void guardar(T t);
+    void guardar(T entidad);
+
     T buscarPorId(Long id);
-    List<T> listar();
-    void actualizar(T t);
+
+    List<T> listarTodos();
+
+    void actualizar(T entidad);
+
     void eliminar(Long id);
 }

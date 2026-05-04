@@ -1,158 +1,169 @@
 package view;
 
-import controller.TurnoController;
 import entity.EstadoTurno;
 import entity.Turno;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaTurno {
+
     private Scanner scanner;
-    private TurnoController turnoController;
 
-    public VistaTurno(Scanner scanner, TurnoController turnoController) {
-        this.scanner = scanner;
-        this.turnoController = turnoController;
+    public VistaTurno() {
+        this.scanner = new Scanner(System.in);
     }
 
-    public void mostrarMenu() {
-        int opcion = 0;
-
-        while (opcion != 6) {
-            System.out.println("\n===== MENU TURNOS =====");
-            System.out.println("1. Registrar turno");
-            System.out.println("2. Listar turnos");
-            System.out.println("3. Buscar turno por ID");
-            System.out.println("4. Cambiar estado");
-            System.out.println("5. Calcular monto");
-            System.out.println("6. Volver");
-            System.out.print("Seleccione una opcion: ");
-
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            if (opcion == 1) {
-                registrarTurno();
-            } else if (opcion == 2) {
-                turnoController.listar();
-            } else if (opcion == 3) {
-                buscarTurno();
-            } else if (opcion == 4) {
-                cambiarEstado();
-            } else if (opcion == 5) {
-                calcularMonto();
-            } else if (opcion == 6) {
-                System.out.println("Volviendo al menu principal...");
-            } else {
-                System.out.println("Opcion invalida.");
-            }
-        }
+    public int mostrarMenu() {
+        System.out.println("\n=== MENU TURNOS ===");
+        System.out.println("1. Registrar turno");
+        System.out.println("2. Buscar turno por ID");
+        System.out.println("3. Listar todos los turnos");
+        System.out.println("4. Listar turnos por paciente");
+        System.out.println("5. Listar turnos por odontologo");
+        System.out.println("6. Listar turnos por secretaria");
+        System.out.println("7. Modificar turno");
+        System.out.println("8. Cambiar estado de turno");
+        System.out.println("9. Eliminar turno");
+        System.out.println("10. Calcular monto de turno");
+        System.out.println("0. Volver");
+        System.out.print("Seleccione una opcion: ");
+        return Integer.parseInt(scanner.nextLine());
     }
 
-    private void registrarTurno() {
+    public DatoTurno pedirDatosTurno() {
         DatoTurno dato = new DatoTurno();
 
-        System.out.println("\n--- Registrar Turno ---");
+        System.out.println("\n=== REGISTRO DE TURNO ===");
 
-        System.out.print("Ingrese ID del paciente: ");
-        dato.setIdPaciente(scanner.nextLong());
-        scanner.nextLine();
+        System.out.print("ID del paciente: ");
+        dato.setIdPaciente(Long.parseLong(scanner.nextLine()));
 
-        System.out.print("Ingrese ID del odontologo: ");
-        dato.setIdOdontologo(scanner.nextLong());
-        scanner.nextLine();
+        System.out.print("ID del odontologo: ");
+        dato.setIdOdontologo(Long.parseLong(scanner.nextLine()));
 
-        System.out.print("Ingrese nombre de la secretaria: ");
-        dato.setNombreSecretaria(scanner.nextLine());
+        System.out.print("ID de la secretaria: ");
+        dato.setIdSecretaria(Long.parseLong(scanner.nextLine()));
 
-        System.out.print("Ingrese DNI de la secretaria: ");
-        dato.setDniSecretaria(scanner.nextInt());
-        scanner.nextLine();
+        System.out.print("Fecha (yyyy-mm-dd): ");
+        dato.setFecha(LocalDate.parse(scanner.nextLine()));
 
-        System.out.print("Ingrese anio del turno: ");
-        dato.setAnio(scanner.nextInt());
+        System.out.print("Hora (HH:mm): ");
+        dato.setHora(LocalTime.parse(scanner.nextLine()));
 
-        System.out.print("Ingrese mes del turno: ");
-        dato.setMes(scanner.nextInt());
+        System.out.print("Motivo de consulta: ");
+        dato.setMotivoConsulta(scanner.nextLine());
 
-        System.out.print("Ingrese dia del turno: ");
-        dato.setDia(scanner.nextInt());
-
-        System.out.print("Ingrese hora del turno: ");
-        dato.setHora(scanner.nextInt());
-
-        System.out.print("Ingrese minuto del turno: ");
-        dato.setMinuto(scanner.nextInt());
-        scanner.nextLine();
-
-        System.out.print("Ingrese motivo de consulta: ");
-        dato.setMotivo(scanner.nextLine());
-
-        Turno turno = turnoController.registrar(dato);
-
-        if (turno != null) {
-            System.out.println("Turno registrado correctamente.");
-            System.out.println(turno);
-        } else {
-            System.out.println("No se pudo registrar el turno.");
-        }
+        return dato;
     }
 
-    private void buscarTurno() {
-        System.out.print("Ingrese ID del turno: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
+    public DatoTurno pedirDatosTurnoActualizado() {
+        DatoTurno dato = new DatoTurno();
 
-        Turno turno = turnoController.buscarPorId(id);
+        System.out.println("\n=== MODIFICACION DE TURNO ===");
 
-        if (turno != null) {
-            System.out.println(turno);
-        } else {
-            System.out.println("No se encontro un turno con ese ID.");
-        }
+        System.out.print("ID del turno: ");
+        dato.setId(Long.parseLong(scanner.nextLine()));
+
+        System.out.print("Nuevo ID del odontologo: ");
+        dato.setIdOdontologo(Long.parseLong(scanner.nextLine()));
+
+        System.out.print("Nuevo ID de la secretaria: ");
+        dato.setIdSecretaria(Long.parseLong(scanner.nextLine()));
+
+        System.out.print("Nueva fecha (yyyy-mm-dd): ");
+        dato.setFecha(LocalDate.parse(scanner.nextLine()));
+
+        System.out.print("Nueva hora (HH:mm): ");
+        dato.setHora(LocalTime.parse(scanner.nextLine()));
+
+        System.out.print("Nuevo motivo de consulta: ");
+        dato.setMotivoConsulta(scanner.nextLine());
+
+        dato.setEstado(pedirEstadoTurno());
+
+        return dato;
     }
 
-    private void cambiarEstado() {
-        System.out.print("Ingrese ID del turno: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
+    public Long pedirIdTurno() {
+        System.out.print("Ingrese el ID del turno: ");
+        return Long.parseLong(scanner.nextLine());
+    }
 
-        System.out.println("Seleccione nuevo estado:");
+    public Long pedirIdPaciente() {
+        System.out.print("Ingrese el ID del paciente: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
+    public Long pedirIdOdontologo() {
+        System.out.print("Ingrese el ID del odontologo: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
+    public Long pedirIdSecretaria() {
+        System.out.print("Ingrese el ID de la secretaria: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
+    public EstadoTurno pedirEstadoTurno() {
+        System.out.println("\nEstados disponibles:");
         System.out.println("1. PENDIENTE");
         System.out.println("2. CONFIRMADO");
         System.out.println("3. CANCELADO");
         System.out.println("4. COMPLETADO");
+        System.out.print("Seleccione un estado: ");
 
-        int opcion = scanner.nextInt();
-        scanner.nextLine();
+        int opcion = Integer.parseInt(scanner.nextLine());
 
-        EstadoTurno estado = null;
-
-        if (opcion == 1) {
-            estado = EstadoTurno.PENDIENTE;
-        } else if (opcion == 2) {
-            estado = EstadoTurno.CONFIRMADO;
-        } else if (opcion == 3) {
-            estado = EstadoTurno.CANCELADO;
-        } else if (opcion == 4) {
-            estado = EstadoTurno.COMPLETADO;
-        }
-
-        if (estado != null) {
-            turnoController.cambiarEstado(id, estado);
-            System.out.println("Estado actualizado.");
-        } else {
-            System.out.println("Estado invalido.");
+        switch (opcion) {
+            case 1:
+                return EstadoTurno.PENDIENTE;
+            case 2:
+                return EstadoTurno.CONFIRMADO;
+            case 3:
+                return EstadoTurno.CANCELADO;
+            case 4:
+                return EstadoTurno.COMPLETADO;
+            default:
+                System.out.println("Opcion invalida. Se asignara PENDIENTE por defecto.");
+                return EstadoTurno.PENDIENTE;
         }
     }
 
-    private void calcularMonto() {
-        System.out.print("Ingrese ID del turno: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
+    public void mostrarTurno(Turno turno) {
+        if (turno == null) {
+            System.out.println("No se encontro el turno.");
+            return;
+        }
 
-        double monto = turnoController.calcularMonto(id);
+        System.out.println(turno);
+    }
+
+    public void mostrarTurnos(List<Turno> turnos) {
+        if (turnos == null || turnos.isEmpty()) {
+            System.out.println("No hay turnos registrados.");
+            return;
+        }
+
+        System.out.println("\n=== LISTADO DE TURNOS ===");
+        for (Turno turno : turnos) {
+            System.out.println(turno);
+            System.out.println("-----------------------------------");
+        }
+    }
+
+    public void mostrarMonto(Double monto) {
+        if (monto == null) {
+            System.out.println("No se pudo calcular el monto del turno.");
+            return;
+        }
 
         System.out.println("Monto a pagar: $" + monto);
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
     }
 }

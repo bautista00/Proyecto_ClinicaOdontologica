@@ -3,53 +3,72 @@ package controller;
 import entity.Domicilio;
 import entity.Paciente;
 import service.PacienteServiceImpl;
-import view.DatoPaciente;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class PacienteController {
+
     private PacienteServiceImpl pacienteService;
 
     public PacienteController(PacienteServiceImpl pacienteService) {
         this.pacienteService = pacienteService;
     }
 
-    public Paciente registrar(DatoPaciente dato) {
+    public Paciente registrarPaciente(String nombre,
+                                      String apellido,
+                                      Integer dni,
+                                      String email,
+                                      String calle,
+                                      Integer numero,
+                                      String localidad,
+                                      String provincia,
+                                      Boolean obraSocial) {
 
-        Domicilio domicilio = new Domicilio(
-                dato.getCalle(),
-                dato.getNumero(),
-                dato.getLocalidad(),
-                dato.getProvincia()
-        );
-
-        Paciente paciente = new Paciente(
-                dato.getNombre(),
-                dato.getApellido(),
-                dato.getDni(),
-                dato.getEmail(),
-                LocalDate.now(),
-                domicilio,
-                dato.getObraSocial()
-        );
+        Domicilio domicilio = new Domicilio(calle, numero, localidad, provincia);
+        Paciente paciente = new Paciente(nombre, apellido, dni, email, domicilio, obraSocial);
 
         return pacienteService.registrar(paciente);
     }
 
-    public Paciente buscarPorId(Long id) {
+    public Paciente buscarPacientePorId(Long id) {
         return pacienteService.buscarPorId(id);
     }
 
-    public List<Paciente> listar() {
-        return pacienteService.listar();
+    public Paciente buscarPacientePorDni(Integer dni) {
+        return pacienteService.buscarPorDni(dni);
     }
 
-    public void eliminar(Long id) {
-        pacienteService.eliminar(id);
+    public List<Paciente> listarPacientes() {
+        return pacienteService.listarTodos();
     }
 
-    public void actualizar(Paciente paciente) {
-        pacienteService.actualizar(paciente);
+    public Paciente actualizarPaciente(Long id,
+                                       String nombre,
+                                       String apellido,
+                                       Integer dni,
+                                       String email,
+                                       String calle,
+                                       Integer numero,
+                                       String localidad,
+                                       String provincia,
+                                       Boolean obraSocial) {
+
+        Paciente pacienteExistente = pacienteService.buscarPorId(id);
+        if (pacienteExistente == null) {
+            return null;
+        }
+
+        pacienteExistente.setNombre(nombre);
+        pacienteExistente.setApellido(apellido);
+        pacienteExistente.setDni(dni);
+        pacienteExistente.setEmail(email);
+        pacienteExistente.setDomicilio(new Domicilio(calle, numero, localidad, provincia));
+        pacienteExistente.setObraSocial(obraSocial);
+
+        return pacienteService.actualizar(pacienteExistente);
+    }
+
+    public boolean eliminarPaciente(Long id) {
+        return pacienteService.eliminar(id);
     }
 }

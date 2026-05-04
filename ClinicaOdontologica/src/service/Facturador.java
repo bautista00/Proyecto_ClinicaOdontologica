@@ -1,17 +1,27 @@
 package service;
 
-import entity.Turno;
+import entity.Odontologo;
+import entity.Paciente;
 
 public class Facturador {
-    private static final double COPAGO_OBRA_SOCIAL = 10000.0;
-    private static final double RECARGO_SIN_OS = 1.0;
 
-    public double calcularMonto(Turno turno) {
+    private static final Double COPAGO_OBRA_SOCIAL = 10000.0;
 
-        if (turno.getPaciente().getObraSocial()) {
-            return COPAGO_OBRA_SOCIAL;
-        } else {
-            return turno.getOdontologo().getTarifaBase() * RECARGO_SIN_OS;
+    public Double calcularMonto(Paciente paciente, Odontologo odontologo) {
+        if (paciente == null) {
+            System.out.println("Error: el paciente no puede ser nulo.");
+            return null;
         }
+
+        if (odontologo == null) {
+            System.out.println("Error: el odontologo no puede ser nulo.");
+            return null;
+        }
+
+        if (Boolean.TRUE.equals(paciente.getObraSocial())) {
+            return COPAGO_OBRA_SOCIAL;
+        }
+
+        return odontologo.getTarifaBase();
     }
 }

@@ -1,24 +1,35 @@
 package entity;
 
-public class Ortodoncista extends Odontologo{
+public class Ortodoncista extends Odontologo {
 
-    public Ortodoncista( String nombre, String apellido, Integer dni, String matricula) {
+    private static final Double TARIFA_BASE = 70000.0;
+
+    public Ortodoncista(String nombre, String apellido, Integer dni, String matricula) {
         super(nombre, apellido, dni, matricula);
     }
 
     @Override
-    public double getTarifaBase() {
-        return 70000.0;
-    }
-
-    @Override
     public String getEspecialidad() {
-        return "Ortodoncista";
+        return "Ortodoncia";
     }
 
     @Override
-    public boolean puedeAtender(String motivoConsulta) {
-        return motivoConsulta != null &&
-                motivoConsulta.toLowerCase().contains("ortodoncia");
+    public Double getTarifaBase() {
+        return TARIFA_BASE;
+    }
+
+    @Override
+    public boolean puedeAtender(String motivo) {
+        if (motivo == null || motivo.isBlank()) {
+            return false;
+        }
+
+        String motivoNormalizado = motivo.toLowerCase();
+
+        return motivoNormalizado.contains("ortodoncia")
+                || motivoNormalizado.contains("brackets")
+                || motivoNormalizado.contains("alineadores")
+                || motivoNormalizado.contains("mordida")
+                || motivoNormalizado.contains("apiñamiento");
     }
 }

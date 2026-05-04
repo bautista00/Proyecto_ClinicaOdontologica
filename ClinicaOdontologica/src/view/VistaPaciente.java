@@ -1,55 +1,35 @@
 package view;
 
-import controller.PacienteController;
 import entity.Paciente;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaPaciente {
+
     private Scanner scanner;
-    private PacienteController pacienteController;
 
-    public VistaPaciente(Scanner scanner, PacienteController pacienteController) {
-        this.scanner = scanner;
-        this.pacienteController = pacienteController;
+    public VistaPaciente() {
+        this.scanner = new Scanner(System.in);
     }
 
-    public void mostrarMenu() {
-        int opcion = 0;
-
-        while (opcion != 5) {
-            System.out.println("\n===== MENU PACIENTES =====");
-            System.out.println("1. Registrar paciente");
-            System.out.println("2. Listar pacientes");
-            System.out.println("3. Buscar paciente por ID");
-            System.out.println("4. Eliminar paciente");
-            System.out.println("5. Volver");
-            System.out.print("Seleccione una opcion: ");
-
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            if (opcion == 1) {
-                registrarPaciente();
-            } else if (opcion == 2) {
-                listarPacientes();
-            } else if (opcion == 3) {
-                buscarPaciente();
-            } else if (opcion == 4) {
-                eliminarPaciente();
-            } else if (opcion == 5) {
-                System.out.println("Volviendo al menu principal...");
-            } else {
-                System.out.println("Opcion invalida.");
-            }
-        }
+    public int mostrarMenu() {
+        System.out.println("\n=== MENU PACIENTES ===");
+        System.out.println("1. Registrar paciente");
+        System.out.println("2. Buscar paciente por ID");
+        System.out.println("3. Buscar paciente por DNI");
+        System.out.println("4. Listar pacientes");
+        System.out.println("5. Modificar paciente");
+        System.out.println("6. Eliminar paciente");
+        System.out.println("0. Volver");
+        System.out.print("Seleccione una opcion: ");
+        return Integer.parseInt(scanner.nextLine());
     }
 
-    private void registrarPaciente() {
+    public DatoPaciente pedirDatosPaciente() {
         DatoPaciente dato = new DatoPaciente();
 
-        System.out.println("\n--- Registrar Paciente ---");
-
+        System.out.println("\n=== REGISTRO DE PACIENTE ===");
         System.out.print("Nombre: ");
         dato.setNombre(scanner.nextLine());
 
@@ -57,20 +37,16 @@ public class VistaPaciente {
         dato.setApellido(scanner.nextLine());
 
         System.out.print("DNI: ");
-        dato.setDni(scanner.nextInt());
-        scanner.nextLine();
+        dato.setDni(Integer.parseInt(scanner.nextLine()));
 
         System.out.print("Email: ");
         dato.setEmail(scanner.nextLine());
-
-        System.out.println("\n--- Domicilio ---");
 
         System.out.print("Calle: ");
         dato.setCalle(scanner.nextLine());
 
         System.out.print("Numero: ");
-        dato.setNumero(scanner.nextInt());
-        scanner.nextLine();
+        dato.setNumero(Integer.parseInt(scanner.nextLine()));
 
         System.out.print("Localidad: ");
         dato.setLocalidad(scanner.nextLine());
@@ -78,53 +54,83 @@ public class VistaPaciente {
         System.out.print("Provincia: ");
         dato.setProvincia(scanner.nextLine());
 
-        System.out.print("Tiene obra social? (s/n): ");
-        String respuesta = scanner.nextLine();
+        System.out.print("Tiene obra social? (true/false): ");
+        dato.setObraSocial(Boolean.parseBoolean(scanner.nextLine()));
 
-        if (respuesta.equalsIgnoreCase("s")) {
-            dato.setObraSocial(true);
-        } else {
-            dato.setObraSocial(false);
+        return dato;
+    }
+
+    public DatoPaciente pedirDatosPacienteActualizado() {
+        DatoPaciente dato = new DatoPaciente();
+
+        System.out.println("\n=== MODIFICACION DE PACIENTE ===");
+
+        System.out.print("ID del paciente: ");
+        dato.setId(Long.parseLong(scanner.nextLine()));
+
+        System.out.print("Nuevo nombre: ");
+        dato.setNombre(scanner.nextLine());
+
+        System.out.print("Nuevo apellido: ");
+        dato.setApellido(scanner.nextLine());
+
+        System.out.print("Nuevo DNI: ");
+        dato.setDni(Integer.parseInt(scanner.nextLine()));
+
+        System.out.print("Nuevo email: ");
+        dato.setEmail(scanner.nextLine());
+
+        System.out.print("Nueva calle: ");
+        dato.setCalle(scanner.nextLine());
+
+        System.out.print("Nuevo numero: ");
+        dato.setNumero(Integer.parseInt(scanner.nextLine()));
+
+        System.out.print("Nueva localidad: ");
+        dato.setLocalidad(scanner.nextLine());
+
+        System.out.print("Nueva provincia: ");
+        dato.setProvincia(scanner.nextLine());
+
+        System.out.print("Tiene obra social? (true/false): ");
+        dato.setObraSocial(Boolean.parseBoolean(scanner.nextLine()));
+
+        return dato;
+    }
+
+    public Long pedirIdPaciente() {
+        System.out.print("Ingrese el ID del paciente: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
+    public Integer pedirDniPaciente() {
+        System.out.print("Ingrese el DNI del paciente: ");
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public void mostrarPaciente(Paciente paciente) {
+        if (paciente == null) {
+            System.out.println("No se encontro el paciente.");
+            return;
         }
 
-        Paciente paciente = pacienteController.registrar(dato);
+        System.out.println(paciente);
+    }
 
-        if (paciente != null) {
-            System.out.println("Paciente registrado correctamente.");
+    public void mostrarPacientes(List<Paciente> pacientes) {
+        if (pacientes == null || pacientes.isEmpty()) {
+            System.out.println("No hay pacientes registrados.");
+            return;
+        }
+
+        System.out.println("\n=== LISTADO DE PACIENTES ===");
+        for (Paciente paciente : pacientes) {
             System.out.println(paciente);
-        } else {
-            System.out.println("No se pudo registrar el paciente.");
+            System.out.println("-----------------------------------");
         }
     }
 
-    private void listarPacientes() {
-        System.out.println("\n--- Lista de Pacientes ---");
-
-        for (Paciente paciente : pacienteController.listar()) {
-            System.out.println(paciente);
-        }
-    }
-
-    private void buscarPaciente() {
-        System.out.print("Ingrese ID del paciente: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-
-        Paciente paciente = pacienteController.buscarPorId(id);
-
-        if (paciente != null) {
-            System.out.println(paciente);
-        } else {
-            System.out.println("No se encontro un paciente con ese ID.");
-        }
-    }
-
-    private void eliminarPaciente() {
-        System.out.print("Ingrese ID del paciente a eliminar: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-
-        pacienteController.eliminar(id);
-        System.out.println("Paciente eliminado si existia.");
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
     }
 }

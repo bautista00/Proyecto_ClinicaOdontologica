@@ -1,21 +1,43 @@
 package view;
 
+import entity.EstadoTurno;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class DatoTurno {
+
+    private Long id;
     private Long idPaciente;
     private Long idOdontologo;
+    private Long idSecretaria;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private String motivoConsulta;
+    private EstadoTurno estado;
 
-    private String nombrePaciente;
-    private String nombreSecretaria;
-    private Integer dniSecretaria;
+    public DatoTurno() {
+    }
 
-    private int anio;
-    private int mes;
-    private int dia;
+    public DatoTurno(Long id, Long idPaciente, Long idOdontologo, Long idSecretaria,
+                     LocalDate fecha, LocalTime hora, String motivoConsulta, EstadoTurno estado) {
+        this.id = id;
+        this.idPaciente = idPaciente;
+        this.idOdontologo = idOdontologo;
+        this.idSecretaria = idSecretaria;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.motivoConsulta = motivoConsulta;
+        this.estado = estado;
+    }
 
-    private int hora;
-    private int minuto;
+    public Long getId() {
+        return id;
+    }
 
-    private String motivo;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getIdPaciente() {
         return idPaciente;
@@ -33,75 +55,43 @@ public class DatoTurno {
         this.idOdontologo = idOdontologo;
     }
 
-    public String getNombrePaciente() {
-        return nombrePaciente;
+    public Long getIdSecretaria() {
+        return idSecretaria;
     }
 
-    public void setNombrePaciente(String nombrePaciente) {
-        this.nombrePaciente = nombrePaciente;
+    public void setIdSecretaria(Long idSecretaria) {
+        this.idSecretaria = idSecretaria;
     }
 
-    public String getNombreSecretaria() {
-        return nombreSecretaria;
+    public LocalDate getFecha() {
+        return fecha;
     }
 
-    public void setNombreSecretaria(String nombreSecretaria) {
-        this.nombreSecretaria = nombreSecretaria;
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
-    public Integer getDniSecretaria() {
-        return dniSecretaria;
-    }
-
-    public void setDniSecretaria(Integer dniSecretaria) {
-        this.dniSecretaria = dniSecretaria;
-    }
-
-    public int getAnio() {
-        return anio;
-    }
-
-    public void setAnio(int anio) {
-        this.anio = anio;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
-    public int getDia() {
-        return dia;
-    }
-
-    public void setDia(int dia) {
-        this.dia = dia;
-    }
-
-    public int getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(int hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
-    public int getMinuto() {
-        return minuto;
+    public String getMotivoConsulta() {
+        return motivoConsulta;
     }
 
-    public void setMinuto(int minuto) {
-        this.minuto = minuto;
+    public void setMotivoConsulta(String motivoConsulta) {
+        this.motivoConsulta = motivoConsulta;
     }
 
-    public String getMotivo() {
-        return motivo;
+    public EstadoTurno getEstado() {
+        return estado;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
+    public void setEstado(EstadoTurno estado) {
+        this.estado = estado;
     }
 }

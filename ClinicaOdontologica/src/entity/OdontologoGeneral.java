@@ -1,23 +1,35 @@
 package entity;
 
-public class OdontologoGeneral extends Odontologo{
+public class OdontologoGeneral extends Odontologo {
+
+    private static final Double TARIFA_BASE = 50000.0;
 
     public OdontologoGeneral(String nombre, String apellido, Integer dni, String matricula) {
         super(nombre, apellido, dni, matricula);
     }
 
     @Override
-    public double getTarifaBase() {
-        return 50000.0;
-    }
-
-    @Override
     public String getEspecialidad() {
-        return "Odontologo General";
+        return "Odontologia General";
     }
 
     @Override
-    public boolean puedeAtender(String motivoConsulta) {
-        return true;
+    public Double getTarifaBase() {
+        return TARIFA_BASE;
+    }
+
+    @Override
+    public boolean puedeAtender(String motivo) {
+        if (motivo == null || motivo.isBlank()) {
+            return false;
+        }
+
+        String motivoConsulta = motivo.toLowerCase();
+
+        return motivoConsulta.contains("consulta")
+                || motivoConsulta.contains("control")
+                || motivoConsulta.contains("limpieza")
+                || motivoConsulta.contains("caries")
+                || motivoConsulta.contains("dolor");
     }
 }

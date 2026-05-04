@@ -1,54 +1,38 @@
 package view;
 
-import controller.OdontologoController;
 import entity.Odontologo;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaOdontologo {
+
     private Scanner scanner;
-    private OdontologoController odontologoController;
 
-    public VistaOdontologo(Scanner scanner, OdontologoController odontologoController) {
-        this.scanner = scanner;
-        this.odontologoController = odontologoController;
+    public VistaOdontologo() {
+        this.scanner = new Scanner(System.in);
     }
 
-    public void mostrarMenu() {
-        int opcion = 0;
-
-        while (opcion != 5) {
-            System.out.println("\n===== MENU ODONTOLOGOS =====");
-            System.out.println("1. Registrar odontologo");
-            System.out.println("2. Listar odontologos");
-            System.out.println("3. Buscar odontologo por ID");
-            System.out.println("4. Eliminar odontologo");
-            System.out.println("5. Volver");
-            System.out.print("Seleccione una opcion: ");
-
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-
-            if (opcion == 1) {
-                registrar();
-            } else if (opcion == 2) {
-                listar();
-            } else if (opcion == 3) {
-                buscar();
-            } else if (opcion == 4) {
-                eliminar();
-            } else if (opcion == 5) {
-                System.out.println("Volviendo...");
-            } else {
-                System.out.println("Opcion invalida");
-            }
-        }
+    public int mostrarMenu() {
+        System.out.println("\n=== MENU ODONTOLOGOS ===");
+        System.out.println("1. Registrar odontologo");
+        System.out.println("2. Buscar odontologo por ID");
+        System.out.println("3. Buscar odontologo por matricula");
+        System.out.println("4. Listar odontologos");
+        System.out.println("5. Modificar odontologo");
+        System.out.println("6. Eliminar odontologo");
+        System.out.println("0. Volver");
+        System.out.print("Seleccione una opcion: ");
+        return Integer.parseInt(scanner.nextLine());
     }
 
-    private void registrar() {
+    public DatoOdontologo pedirDatosOdontologo() {
         DatoOdontologo dato = new DatoOdontologo();
 
-        System.out.println("\n--- Registrar Odontologo ---");
+        System.out.println("\n=== REGISTRO DE ODONTOLOGO ===");
+
+        System.out.print("Tipo de especialidad (general / ortodoncia / endodoncia): ");
+        dato.setTipoEspecialidad(scanner.nextLine());
 
         System.out.print("Nombre: ");
         dato.setNombre(scanner.nextLine());
@@ -57,59 +41,70 @@ public class VistaOdontologo {
         dato.setApellido(scanner.nextLine());
 
         System.out.print("DNI: ");
-        dato.setDni(scanner.nextInt());
-        scanner.nextLine();
+        dato.setDni(Integer.parseInt(scanner.nextLine()));
 
         System.out.print("Matricula: ");
         dato.setMatricula(scanner.nextLine());
 
-        System.out.println("Tipo de odontologo:");
-        System.out.println("1. General");
-        System.out.println("2. Ortodoncista");
-        System.out.println("3. Endodoncista");
+        return dato;
+    }
 
-        dato.setTipo(scanner.nextInt());
-        scanner.nextLine();
+    public DatoOdontologo pedirDatosOdontologoActualizado() {
+        DatoOdontologo dato = new DatoOdontologo();
 
-        Odontologo odontologo = odontologoController.registrar(dato);
+        System.out.println("\n=== MODIFICACION DE ODONTOLOGO ===");
 
-        if (odontologo != null) {
-            System.out.println("Odontologo registrado correctamente.");
+        System.out.print("ID del odontologo: ");
+        dato.setId(Long.parseLong(scanner.nextLine()));
+
+        System.out.print("Nuevo nombre: ");
+        dato.setNombre(scanner.nextLine());
+
+        System.out.print("Nuevo apellido: ");
+        dato.setApellido(scanner.nextLine());
+
+        System.out.print("Nuevo DNI: ");
+        dato.setDni(Integer.parseInt(scanner.nextLine()));
+
+        System.out.print("Nueva matricula: ");
+        dato.setMatricula(scanner.nextLine());
+
+        return dato;
+    }
+
+    public Long pedirIdOdontologo() {
+        System.out.print("Ingrese el ID del odontologo: ");
+        return Long.parseLong(scanner.nextLine());
+    }
+
+    public String pedirMatriculaOdontologo() {
+        System.out.print("Ingrese la matricula del odontologo: ");
+        return scanner.nextLine();
+    }
+
+    public void mostrarOdontologo(Odontologo odontologo) {
+        if (odontologo == null) {
+            System.out.println("No se encontro el odontologo.");
+            return;
+        }
+
+        System.out.println(odontologo);
+    }
+
+    public void mostrarOdontologos(List<Odontologo> odontologos) {
+        if (odontologos == null || odontologos.isEmpty()) {
+            System.out.println("No hay odontologos registrados.");
+            return;
+        }
+
+        System.out.println("\n=== LISTADO DE ODONTOLOGOS ===");
+        for (Odontologo odontologo : odontologos) {
             System.out.println(odontologo);
-        } else {
-            System.out.println("No se pudo registrar.");
+            System.out.println("-----------------------------------");
         }
     }
 
-    private void listar() {
-        System.out.println("\n--- Lista de Odontologos ---");
-
-        for (Odontologo o : odontologoController.listar()) {
-            System.out.println(o);
-        }
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
     }
-
-    private void buscar() {
-        System.out.print("Ingrese ID: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-
-        Odontologo o = odontologoController.buscarPorId(id);
-
-        if (o != null) {
-            System.out.println(o);
-        } else {
-            System.out.println("No encontrado.");
-        }
-    }
-
-    private void eliminar() {
-        System.out.print("Ingrese ID a eliminar: ");
-        Long id = scanner.nextLong();
-        scanner.nextLine();
-
-        odontologoController.eliminar(id);
-        System.out.println("Eliminado si existia.");
-    }
-
 }

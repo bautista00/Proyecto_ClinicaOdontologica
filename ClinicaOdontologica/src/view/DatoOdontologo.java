@@ -1,35 +1,18 @@
 package view;
 
-public class DatoOdontologo {
+public class DatoOdontologo extends DatoPersona {
 
-    private String nombre;
-    private String apellido;
-    private Integer dni;
     private String matricula;
-    private int tipo;
+    private String tipoEspecialidad;
 
-    public String getNombre() {
-        return nombre;
+    public DatoOdontologo() {
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public Integer getDni() {
-        return dni;
-    }
-
-    public void setDni(Integer dni) {
-        this.dni = dni;
+    public DatoOdontologo(Long id, String nombre, String apellido, Integer dni,
+                          String matricula, String tipoEspecialidad) {
+        super(id, nombre, apellido, dni);
+        this.matricula = matricula;
+        this.tipoEspecialidad = tipoEspecialidad;
     }
 
     public String getMatricula() {
@@ -40,11 +23,11 @@ public class DatoOdontologo {
         this.matricula = matricula;
     }
 
-    public int getTipo() {
-        return tipo;
+    public String getTipoEspecialidad() {
+        return tipoEspecialidad;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setTipoEspecialidad(String tipoEspecialidad) {
+        this.tipoEspecialidad = tipoEspecialidad;
     }
 }
