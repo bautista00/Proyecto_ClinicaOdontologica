@@ -48,9 +48,9 @@ public class Domicilio {
     @Override
     public String toString() {
         return "\n === Informacion del Domicilio ===" +
-                "\n Calle:'" + calle +
+                "\n Calle: " + calle +
                 "\n Numero: " + numero +
                 "\n Localidad: " + localidad +
-                "\n Provincia:" + provincia ;
+                "\n Provincia: " + provincia ;
     }
 }

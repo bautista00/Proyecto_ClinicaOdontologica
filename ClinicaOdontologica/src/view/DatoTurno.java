@@ -8,9 +8,9 @@ import java.time.LocalTime;
 public class DatoTurno {
 
     private Long id;
-    private Long idPaciente;
-    private Long idOdontologo;
-    private Long idSecretaria;
+    private Integer dniPaciente;
+    private String matriculaOdontologo;
+    private Integer dniSecretaria;
     private LocalDate fecha;
     private LocalTime hora;
     private String motivoConsulta;
@@ -19,12 +19,12 @@ public class DatoTurno {
     public DatoTurno() {
     }
 
-    public DatoTurno(Long id, Long idPaciente, Long idOdontologo, Long idSecretaria,
+    public DatoTurno(Long id, Integer dniPaciente, String matriculaOdontologo, Integer dniSecretaria,
                      LocalDate fecha, LocalTime hora, String motivoConsulta, EstadoTurno estado) {
         this.id = id;
-        this.idPaciente = idPaciente;
-        this.idOdontologo = idOdontologo;
-        this.idSecretaria = idSecretaria;
+        this.dniPaciente = dniPaciente;
+        this.matriculaOdontologo = matriculaOdontologo;
+        this.dniSecretaria = dniSecretaria;
         this.fecha = fecha;
         this.hora = hora;
         this.motivoConsulta = motivoConsulta;
@@ -39,28 +39,28 @@ public class DatoTurno {
         this.id = id;
     }
 
-    public Long getIdPaciente() {
-        return idPaciente;
+    public Integer getDniPaciente() {
+        return dniPaciente;
     }
 
-    public void setIdPaciente(Long idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setDniPaciente(Integer dniPaciente) {
+        this.dniPaciente = dniPaciente;
     }
 
-    public Long getIdOdontologo() {
-        return idOdontologo;
+    public String getMatriculaOdontologo() {
+        return matriculaOdontologo;
     }
 
-    public void setIdOdontologo(Long idOdontologo) {
-        this.idOdontologo = idOdontologo;
+    public void setMatriculaOdontologo(String matriculaOdontologo) {
+        this.matriculaOdontologo = matriculaOdontologo;
     }
 
-    public Long getIdSecretaria() {
-        return idSecretaria;
+    public Integer getDniSecretaria() {
+        return dniSecretaria;
     }
 
-    public void setIdSecretaria(Long idSecretaria) {
-        this.idSecretaria = idSecretaria;
+    public void setDniSecretaria(Integer dniSecretaria) {
+        this.dniSecretaria = dniSecretaria;
     }
 
     public LocalDate getFecha() {

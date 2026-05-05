@@ -22,8 +22,7 @@ public class VistaOdontologo {
         System.out.println("5. Modificar odontologo");
         System.out.println("6. Eliminar odontologo");
         System.out.println("0. Volver");
-        System.out.print("Seleccione una opcion: ");
-        return Integer.parseInt(scanner.nextLine());
+        return leerOpcionMenu("Seleccione una opcion: ", 0, 6);
     }
 
     public DatoOdontologo pedirDatosOdontologo() {
@@ -32,20 +31,12 @@ public class VistaOdontologo {
         System.out.println("1. Odontologia General");
         System.out.println("2. Ortodoncia");
         System.out.println("3. Endodoncia");
-        System.out.print("Seleccione una opcion: ");
-        int opcion = Integer.parseInt(scanner.nextLine());
 
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-
-        System.out.print("Apellido: ");
-        String apellido = scanner.nextLine();
-
-        System.out.print("DNI: ");
-        Integer dni = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("Matricula: ");
-        String matricula = scanner.nextLine();
+        int opcion = leerOpcionMenu("Seleccione una opcion: ", 1, 3);
+        String nombre = leerString("Nombre: ");
+        String apellido = leerString("Apellido: ");
+        Integer dni = leerInteger("DNI: ");
+        String matricula = leerString("Matricula: ");
 
         switch (opcion) {
             case 1:
@@ -55,7 +46,6 @@ public class VistaOdontologo {
             case 3:
                 return new DatoEndodoncista(null, nombre, apellido, dni, matricula);
             default:
-                System.out.println("Opcion invalida.");
                 return null;
         }
     }
@@ -63,49 +53,21 @@ public class VistaOdontologo {
     public DatoOdontologo pedirDatosOdontologoActualizado() {
         System.out.println("\n=== MODIFICACION DE ODONTOLOGO ===");
 
-        System.out.print("ID del odontologo: ");
-        Long id = Long.parseLong(scanner.nextLine());
+        Long id = leerLong("ID del odontologo: ");
+        String nombre = leerString("Nuevo nombre: ");
+        String apellido = leerString("Nuevo apellido: ");
+        Integer dni = leerInteger("Nuevo DNI: ");
+        String matricula = leerString("Nueva matricula: ");
 
-        System.out.print("Nuevo nombre: ");
-        String nombre = scanner.nextLine();
-
-        System.out.print("Nuevo apellido: ");
-        String apellido = scanner.nextLine();
-
-        System.out.print("Nuevo DNI: ");
-        Integer dni = Integer.parseInt(scanner.nextLine());
-
-        System.out.print("Nueva matricula: ");
-        String matricula = scanner.nextLine();
-
-        System.out.println("Tipo de especialidad:");
-        System.out.println("1. Odontologia General");
-        System.out.println("2. Ortodoncia");
-        System.out.println("3. Endodoncia");
-        System.out.print("Seleccione una opcion: ");
-        int opcion = Integer.parseInt(scanner.nextLine());
-
-        switch (opcion) {
-            case 1:
-                return new DatoOdontologoGeneral(id, nombre, apellido, dni, matricula);
-            case 2:
-                return new DatoOrtodoncista(id, nombre, apellido, dni, matricula);
-            case 3:
-                return new DatoEndodoncista(id, nombre, apellido, dni, matricula);
-            default:
-                System.out.println("Opcion invalida.");
-                return null;
-        }
+        return new DatoOdontologoGeneral(id, nombre, apellido, dni, matricula);
     }
 
     public Long pedirIdOdontologo() {
-        System.out.print("Ingrese el ID del odontologo: ");
-        return Long.parseLong(scanner.nextLine());
+        return leerLong("Ingrese el ID del odontologo: ");
     }
 
     public String pedirMatriculaOdontologo() {
-        System.out.print("Ingrese la matricula del odontologo: ");
-        return scanner.nextLine();
+        return leerString("Ingrese la matricula del odontologo: ");
     }
 
     public void mostrarOdontologo(Odontologo odontologo) {
@@ -132,5 +94,78 @@ public class VistaOdontologo {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    private String leerString(String mensaje) {
+        String valor;
+
+        do {
+            System.out.print(mensaje);
+            valor = scanner.nextLine().trim();
+
+            if (valor.isEmpty()) {
+                System.out.println("Error: el valor no puede estar vacio.");
+            }
+        } while (valor.isEmpty());
+
+        return valor;
+    }
+
+    private Integer leerInteger(String mensaje) {
+        String valorTexto;
+
+        do {
+            System.out.print(mensaje);
+            valorTexto = scanner.nextLine().trim();
+
+            if (!esNumeroEnteroPositivo(valorTexto)) {
+                System.out.println("Error: debe ingresar un numero entero positivo.");
+            }
+        } while (!esNumeroEnteroPositivo(valorTexto));
+
+        return Integer.parseInt(valorTexto);
+    }
+
+    private Long leerLong(String mensaje) {
+        String valorTexto;
+
+        do {
+            System.out.print(mensaje);
+            valorTexto = scanner.nextLine().trim();
+
+            if (!esNumeroEnteroPositivo(valorTexto)) {
+                System.out.println("Error: debe ingresar un numero valido.");
+            }
+        } while (!esNumeroEnteroPositivo(valorTexto));
+
+        return Long.parseLong(valorTexto);
+    }
+
+    private int leerOpcionMenu(String mensaje, int minimo, int maximo) {
+        int opcion;
+
+        do {
+            opcion = leerInteger(mensaje);
+
+            if (opcion < minimo || opcion > maximo) {
+                System.out.println("Error: debe elegir una opcion entre " + minimo + " y " + maximo + ".");
+            }
+        } while (opcion < minimo || opcion > maximo);
+
+        return opcion;
+    }
+
+    private boolean esNumeroEnteroPositivo(String texto) {
+        if (texto == null || texto.isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < texto.length(); i++) {
+            if (!Character.isDigit(texto.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

@@ -338,17 +338,25 @@ public class MenuController {
             switch (opcion) {
                 case 1:
                     DatoTurno nuevoTurno = vistaTurno.pedirDatosTurno();
-                    Turno turnoRegistrado = turnoController.registrarTurno(
-                            nuevoTurno.getIdPaciente(),
-                            nuevoTurno.getIdOdontologo(),
-                            nuevoTurno.getIdSecretaria(),
-                            nuevoTurno.getFecha(),
-                            nuevoTurno.getHora(),
-                            nuevoTurno.getMotivoConsulta()
-                    );
-                    if (turnoRegistrado != null) {
-                        vistaTurno.mostrarMensaje("Turno registrado correctamente.");
-                        vistaTurno.mostrarTurno(turnoRegistrado);
+
+                    Paciente paciente = pacienteController.buscarPacientePorDni(nuevoTurno.getDniPaciente());
+                    Odontologo odontologo = odontologoController.buscarOdontologoPorMatricula(nuevoTurno.getMatriculaOdontologo());
+                    Secretaria secretaria = secretariaController.buscarSecretariaPorDni(nuevoTurno.getDniSecretaria());
+
+                    if (paciente != null && odontologo != null && secretaria != null) {
+                        Turno turnoRegistrado = turnoController.registrarTurno(
+                                paciente.getId(),
+                                odontologo.getId(),
+                                secretaria.getId(),
+                                nuevoTurno.getFecha(),
+                                nuevoTurno.getHora(),
+                                nuevoTurno.getMotivoConsulta()
+                        );
+
+                        if (turnoRegistrado != null) {
+                            vistaTurno.mostrarMensaje("Turno registrado correctamente.");
+                            vistaTurno.mostrarTurno(turnoRegistrado);
+                        }
                     }
                     break;
 
@@ -378,18 +386,25 @@ public class MenuController {
 
                 case 7:
                     DatoTurno turnoActualizado = vistaTurno.pedirDatosTurnoActualizado();
-                    Turno turnoModificado = turnoController.actualizarTurno(
-                            turnoActualizado.getId(),
-                            turnoActualizado.getIdOdontologo(),
-                            turnoActualizado.getIdSecretaria(),
-                            turnoActualizado.getFecha(),
-                            turnoActualizado.getHora(),
-                            turnoActualizado.getMotivoConsulta(),
-                            turnoActualizado.getEstado()
-                    );
-                    if (turnoModificado != null) {
-                        vistaTurno.mostrarMensaje("Turno actualizado correctamente.");
-                        vistaTurno.mostrarTurno(turnoModificado);
+
+                    Odontologo odontologoActualizado = odontologoController.buscarOdontologoPorMatricula(turnoActualizado.getMatriculaOdontologo());
+                    Secretaria secretariaActualizada = secretariaController.buscarSecretariaPorDni(turnoActualizado.getDniSecretaria());
+
+                    if (odontologoActualizado != null && secretariaActualizada != null) {
+                        Turno turnoModificado = turnoController.actualizarTurno(
+                                turnoActualizado.getId(),
+                                odontologoActualizado.getId(),
+                                secretariaActualizada.getId(),
+                                turnoActualizado.getFecha(),
+                                turnoActualizado.getHora(),
+                                turnoActualizado.getMotivoConsulta(),
+                                turnoActualizado.getEstado()
+                        );
+
+                        if (turnoModificado != null) {
+                            vistaTurno.mostrarMensaje("Turno actualizado correctamente.");
+                            vistaTurno.mostrarTurno(turnoModificado);
+                        }
                     }
                     break;
 

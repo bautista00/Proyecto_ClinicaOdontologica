@@ -22,23 +22,16 @@ public class VistaSecretaria {
         System.out.println("5. Modificar secretaria");
         System.out.println("6. Eliminar secretaria");
         System.out.println("0. Volver");
-        System.out.print("Seleccione una opcion: ");
-        return Integer.parseInt(scanner.nextLine());
+        return leerOpcionMenu("Seleccione una opcion: ", 0, 6);
     }
 
     public DatoSecretaria pedirDatosSecretaria() {
         DatoSecretaria dato = new DatoSecretaria();
 
         System.out.println("\n=== REGISTRO DE SECRETARIA ===");
-
-        System.out.print("Nombre: ");
-        dato.setNombre(scanner.nextLine());
-
-        System.out.print("Apellido: ");
-        dato.setApellido(scanner.nextLine());
-
-        System.out.print("DNI: ");
-        dato.setDni(Integer.parseInt(scanner.nextLine()));
+        dato.setNombre(leerString("Nombre: "));
+        dato.setApellido(leerString("Apellido: "));
+        dato.setDni(leerInteger("DNI: "));
 
         return dato;
     }
@@ -47,30 +40,20 @@ public class VistaSecretaria {
         DatoSecretaria dato = new DatoSecretaria();
 
         System.out.println("\n=== MODIFICACION DE SECRETARIA ===");
-
-        System.out.print("ID de la secretaria: ");
-        dato.setId(Long.parseLong(scanner.nextLine()));
-
-        System.out.print("Nuevo nombre: ");
-        dato.setNombre(scanner.nextLine());
-
-        System.out.print("Nuevo apellido: ");
-        dato.setApellido(scanner.nextLine());
-
-        System.out.print("Nuevo DNI: ");
-        dato.setDni(Integer.parseInt(scanner.nextLine()));
+        dato.setId(leerLong("ID de la secretaria: "));
+        dato.setNombre(leerString("Nuevo nombre: "));
+        dato.setApellido(leerString("Nuevo apellido: "));
+        dato.setDni(leerInteger("Nuevo DNI: "));
 
         return dato;
     }
 
     public Long pedirIdSecretaria() {
-        System.out.print("Ingrese el ID de la secretaria: ");
-        return Long.parseLong(scanner.nextLine());
+        return leerLong("Ingrese el ID de la secretaria: ");
     }
 
     public Integer pedirDniSecretaria() {
-        System.out.print("Ingrese el DNI de la secretaria: ");
-        return Integer.parseInt(scanner.nextLine());
+        return leerInteger("Ingrese el DNI de la secretaria: ");
     }
 
     public void mostrarSecretaria(Secretaria secretaria) {
@@ -97,5 +80,78 @@ public class VistaSecretaria {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    private String leerString(String mensaje) {
+        String valor;
+
+        do {
+            System.out.print(mensaje);
+            valor = scanner.nextLine().trim();
+
+            if (valor.isEmpty()) {
+                System.out.println("Error: el valor no puede estar vacio.");
+            }
+        } while (valor.isEmpty());
+
+        return valor;
+    }
+
+    private Integer leerInteger(String mensaje) {
+        String valorTexto;
+
+        do {
+            System.out.print(mensaje);
+            valorTexto = scanner.nextLine().trim();
+
+            if (!esNumeroEnteroPositivo(valorTexto)) {
+                System.out.println("Error: debe ingresar un numero entero positivo.");
+            }
+        } while (!esNumeroEnteroPositivo(valorTexto));
+
+        return Integer.parseInt(valorTexto);
+    }
+
+    private Long leerLong(String mensaje) {
+        String valorTexto;
+
+        do {
+            System.out.print(mensaje);
+            valorTexto = scanner.nextLine().trim();
+
+            if (!esNumeroEnteroPositivo(valorTexto)) {
+                System.out.println("Error: debe ingresar un numero valido.");
+            }
+        } while (!esNumeroEnteroPositivo(valorTexto));
+
+        return Long.parseLong(valorTexto);
+    }
+
+    private int leerOpcionMenu(String mensaje, int minimo, int maximo) {
+        int opcion;
+
+        do {
+            opcion = leerInteger(mensaje);
+
+            if (opcion < minimo || opcion > maximo) {
+                System.out.println("Error: debe elegir una opcion entre " + minimo + " y " + maximo + ".");
+            }
+        } while (opcion < minimo || opcion > maximo);
+
+        return opcion;
+    }
+
+    private boolean esNumeroEnteroPositivo(String texto) {
+        if (texto == null || texto.isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < texto.length(); i++) {
+            if (!Character.isDigit(texto.charAt(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
