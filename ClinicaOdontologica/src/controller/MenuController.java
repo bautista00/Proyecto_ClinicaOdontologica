@@ -8,6 +8,7 @@ import entity.Ortodoncista;
 import entity.Paciente;
 import entity.Secretaria;
 import entity.Turno;
+import exception.ClinicaException;
 import view.DatoEndodoncista;
 import view.DatoOdontologo;
 import view.DatoOdontologoGeneral;
@@ -20,6 +21,8 @@ import view.VistaOdontologo;
 import view.VistaPaciente;
 import view.VistaSecretaria;
 import view.VistaTurno;
+
+import java.time.LocalDate;
 
 public class MenuController {
 
@@ -84,7 +87,7 @@ public class MenuController {
                     }
                     break;
                 default:
-                    vistaMenu.mostrarMensaje("Opcion invalida.");
+                    vistaMenu.mostrarError("Opcion invalida.");
                     vistaMenu.pausar();
             }
         }
@@ -96,74 +99,73 @@ public class MenuController {
         do {
             opcion = vistaPaciente.mostrarMenu();
 
-            switch (opcion) {
-                case 1:
-                    DatoPaciente nuevoPaciente = vistaPaciente.pedirDatosPaciente();
-                    Paciente pacienteRegistrado = pacienteController.registrarPaciente(
-                            nuevoPaciente.getNombre(),
-                            nuevoPaciente.getApellido(),
-                            nuevoPaciente.getDni(),
-                            nuevoPaciente.getEmail(),
-                            nuevoPaciente.getCalle(),
-                            nuevoPaciente.getNumero(),
-                            nuevoPaciente.getLocalidad(),
-                            nuevoPaciente.getProvincia(),
-                            nuevoPaciente.getObraSocial()
-                    );
-                    if (pacienteRegistrado != null) {
+            try {
+                switch (opcion) {
+                    case 1: {
+                        DatoPaciente nuevoPaciente = vistaPaciente.pedirDatosPaciente();
+                        Paciente p = pacienteController.registrarPaciente(
+                                nuevoPaciente.getNombre(),
+                                nuevoPaciente.getApellido(),
+                                nuevoPaciente.getDni(),
+                                nuevoPaciente.getEmail(),
+                                nuevoPaciente.getCalle(),
+                                nuevoPaciente.getNumero(),
+                                nuevoPaciente.getLocalidad(),
+                                nuevoPaciente.getProvincia(),
+                                nuevoPaciente.getObraSocial()
+                        );
                         vistaPaciente.mostrarMensaje("Paciente registrado correctamente.");
-                        vistaPaciente.mostrarPaciente(pacienteRegistrado);
+                        vistaPaciente.mostrarPaciente(p);
+                        break;
                     }
-                    break;
-
-                case 2:
-                    Long idPaciente = vistaPaciente.pedirIdPaciente();
-                    vistaPaciente.mostrarPaciente(pacienteController.buscarPacientePorId(idPaciente));
-                    break;
-
-                case 3:
-                    Integer dniPaciente = vistaPaciente.pedirDniPaciente();
-                    vistaPaciente.mostrarPaciente(pacienteController.buscarPacientePorDni(dniPaciente));
-                    break;
-
-                case 4:
-                    vistaPaciente.mostrarPacientes(pacienteController.listarPacientes());
-                    break;
-
-                case 5:
-                    DatoPaciente pacienteActualizado = vistaPaciente.pedirDatosPacienteActualizado();
-                    Paciente pacienteModificado = pacienteController.actualizarPaciente(
-                            pacienteActualizado.getId(),
-                            pacienteActualizado.getNombre(),
-                            pacienteActualizado.getApellido(),
-                            pacienteActualizado.getDni(),
-                            pacienteActualizado.getEmail(),
-                            pacienteActualizado.getCalle(),
-                            pacienteActualizado.getNumero(),
-                            pacienteActualizado.getLocalidad(),
-                            pacienteActualizado.getProvincia(),
-                            pacienteActualizado.getObraSocial()
-                    );
-                    if (pacienteModificado != null) {
+                    case 2: {
+                        Long idPaciente = vistaPaciente.pedirIdPaciente();
+                        vistaPaciente.mostrarPaciente(pacienteController.buscarPacientePorId(idPaciente));
+                        break;
+                    }
+                    case 3: {
+                        Integer dniPaciente = vistaPaciente.pedirDniPaciente();
+                        vistaPaciente.mostrarPaciente(pacienteController.buscarPacientePorDni(dniPaciente));
+                        break;
+                    }
+                    case 4:
+                        vistaPaciente.mostrarPacientes(pacienteController.listarPacientesOrdenadosPorApellido());
+                        break;
+                    case 5: {
+                        DatoPaciente actualizado = vistaPaciente.pedirDatosPacienteActualizado();
+                        Paciente p = pacienteController.actualizarPaciente(
+                                actualizado.getId(),
+                                actualizado.getNombre(),
+                                actualizado.getApellido(),
+                                actualizado.getDni(),
+                                actualizado.getEmail(),
+                                actualizado.getCalle(),
+                                actualizado.getNumero(),
+                                actualizado.getLocalidad(),
+                                actualizado.getProvincia(),
+                                actualizado.getObraSocial()
+                        );
                         vistaPaciente.mostrarMensaje("Paciente actualizado correctamente.");
-                        vistaPaciente.mostrarPaciente(pacienteModificado);
+                        vistaPaciente.mostrarPaciente(p);
+                        break;
                     }
-                    break;
-
-                case 6:
-                    Long idEliminarPaciente = vistaPaciente.pedirIdPaciente();
-                    if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el paciente?")) {
-                        if (pacienteController.eliminarPaciente(idEliminarPaciente)) {
+                    case 6: {
+                        Long idEliminar = vistaPaciente.pedirIdPaciente();
+                        if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el paciente?")
+                                && pacienteController.eliminarPaciente(idEliminar)) {
                             vistaPaciente.mostrarMensaje("Paciente eliminado correctamente.");
                         }
+                        break;
                     }
-                    break;
-
-                case 0:
-                    break;
-
-                default:
-                    vistaPaciente.mostrarMensaje("Opcion invalida.");
+                    case 0:
+                        break;
+                    default:
+                        vistaPaciente.mostrarMensaje("Opcion invalida.");
+                }
+            } catch (ClinicaException e) {
+                vistaMenu.mostrarError(e.getMessage());
+            } catch (RuntimeException e) {
+                vistaMenu.mostrarError("Error inesperado: " + e.getMessage());
             }
         } while (opcion != 0);
     }
@@ -174,93 +176,81 @@ public class MenuController {
         do {
             opcion = vistaOdontologo.mostrarMenu();
 
-            switch (opcion) {
-                case 1:
-                    DatoOdontologo datoOdontologo = vistaOdontologo.pedirDatosOdontologo();
-                    Odontologo odontologo = null;
-
-                    if (datoOdontologo instanceof DatoOdontologoGeneral) {
-                        DatoOdontologoGeneral d = (DatoOdontologoGeneral) datoOdontologo;
-                        odontologo = new OdontologoGeneral(
-                                d.getNombre(),
-                                d.getApellido(),
-                                d.getDni(),
-                                d.getMatricula()
-                        );
-                    } else if (datoOdontologo instanceof DatoOrtodoncista) {
-                        DatoOrtodoncista d = (DatoOrtodoncista) datoOdontologo;
-                        odontologo = new Ortodoncista(
-                                d.getNombre(),
-                                d.getApellido(),
-                                d.getDni(),
-                                d.getMatricula()
-                        );
-                    } else if (datoOdontologo instanceof DatoEndodoncista) {
-                        DatoEndodoncista d = (DatoEndodoncista) datoOdontologo;
-                        odontologo = new Endodoncista(
-                                d.getNombre(),
-                                d.getApellido(),
-                                d.getDni(),
-                                d.getMatricula()
-                        );
-                    }
-
-                    if (odontologo != null) {
-                        Odontologo odontologoRegistrado = odontologoController.registrarOdontologo(odontologo);
-                        if (odontologoRegistrado != null) {
-                            vistaOdontologo.mostrarMensaje("Odontologo registrado correctamente.");
-                            vistaOdontologo.mostrarOdontologo(odontologoRegistrado);
+            try {
+                switch (opcion) {
+                    case 1: {
+                        DatoOdontologo datoOdontologo = vistaOdontologo.pedirDatosOdontologo();
+                        Odontologo odontologo = construirOdontologo(datoOdontologo);
+                        if (odontologo == null) {
+                            vistaOdontologo.mostrarMensaje("No se pudo determinar el tipo de odontologo.");
+                            break;
                         }
-                    } else {
-                        vistaOdontologo.mostrarMensaje("No se pudo determinar el tipo de odontologo.");
+                        Odontologo registrado = odontologoController.registrarOdontologo(odontologo);
+                        vistaOdontologo.mostrarMensaje("Odontologo registrado correctamente.");
+                        vistaOdontologo.mostrarOdontologo(registrado);
+                        break;
                     }
-                    break;
-
-                case 2:
-                    Long idOdontologo = vistaOdontologo.pedirIdOdontologo();
-                    vistaOdontologo.mostrarOdontologo(odontologoController.buscarOdontologoPorId(idOdontologo));
-                    break;
-
-                case 3:
-                    String matricula = vistaOdontologo.pedirMatriculaOdontologo();
-                    vistaOdontologo.mostrarOdontologo(odontologoController.buscarOdontologoPorMatricula(matricula));
-                    break;
-
-                case 4:
-                    vistaOdontologo.mostrarOdontologos(odontologoController.listarOdontologos());
-                    break;
-
-                case 5:
-                    DatoOdontologo odontologoActualizado = vistaOdontologo.pedirDatosOdontologoActualizado();
-                    Odontologo odontologoModificado = odontologoController.actualizarOdontologo(
-                            odontologoActualizado.getId(),
-                            odontologoActualizado.getNombre(),
-                            odontologoActualizado.getApellido(),
-                            odontologoActualizado.getDni(),
-                            odontologoActualizado.getMatricula()
-                    );
-                    if (odontologoModificado != null) {
+                    case 2: {
+                        Long idOdontologo = vistaOdontologo.pedirIdOdontologo();
+                        vistaOdontologo.mostrarOdontologo(odontologoController.buscarOdontologoPorId(idOdontologo));
+                        break;
+                    }
+                    case 3: {
+                        String matricula = vistaOdontologo.pedirMatriculaOdontologo();
+                        vistaOdontologo.mostrarOdontologo(odontologoController.buscarOdontologoPorMatricula(matricula));
+                        break;
+                    }
+                    case 4:
+                        vistaOdontologo.mostrarOdontologos(odontologoController.listarOdontologos());
+                        break;
+                    case 5: {
+                        DatoOdontologo actualizado = vistaOdontologo.pedirDatosOdontologoActualizado();
+                        Odontologo modificado = odontologoController.actualizarOdontologo(
+                                actualizado.getId(),
+                                actualizado.getNombre(),
+                                actualizado.getApellido(),
+                                actualizado.getDni(),
+                                actualizado.getMatricula()
+                        );
                         vistaOdontologo.mostrarMensaje("Odontologo actualizado correctamente.");
-                        vistaOdontologo.mostrarOdontologo(odontologoModificado);
+                        vistaOdontologo.mostrarOdontologo(modificado);
+                        break;
                     }
-                    break;
-
-                case 6:
-                    Long idEliminarOdontologo = vistaOdontologo.pedirIdOdontologo();
-                    if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el odontologo?")) {
-                        if (odontologoController.eliminarOdontologo(idEliminarOdontologo)) {
+                    case 6: {
+                        Long idEliminar = vistaOdontologo.pedirIdOdontologo();
+                        if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el odontologo?")
+                                && odontologoController.eliminarOdontologo(idEliminar)) {
                             vistaOdontologo.mostrarMensaje("Odontologo eliminado correctamente.");
                         }
+                        break;
                     }
-                    break;
-
-                case 0:
-                    break;
-
-                default:
-                    vistaOdontologo.mostrarMensaje("Opcion invalida.");
+                    case 0:
+                        break;
+                    default:
+                        vistaOdontologo.mostrarMensaje("Opcion invalida.");
+                }
+            } catch (ClinicaException e) {
+                vistaMenu.mostrarError(e.getMessage());
+            } catch (RuntimeException e) {
+                vistaMenu.mostrarError("Error inesperado: " + e.getMessage());
             }
         } while (opcion != 0);
+    }
+
+    private Odontologo construirOdontologo(DatoOdontologo datoOdontologo) {
+        if (datoOdontologo instanceof DatoOdontologoGeneral) {
+            DatoOdontologoGeneral d = (DatoOdontologoGeneral) datoOdontologo;
+            return new OdontologoGeneral(d.getNombre(), d.getApellido(), d.getDni(), d.getMatricula());
+        }
+        if (datoOdontologo instanceof DatoOrtodoncista) {
+            DatoOrtodoncista d = (DatoOrtodoncista) datoOdontologo;
+            return new Ortodoncista(d.getNombre(), d.getApellido(), d.getDni(), d.getMatricula());
+        }
+        if (datoOdontologo instanceof DatoEndodoncista) {
+            DatoEndodoncista d = (DatoEndodoncista) datoOdontologo;
+            return new Endodoncista(d.getNombre(), d.getApellido(), d.getDni(), d.getMatricula());
+        }
+        return null;
     }
 
     private void gestionarSecretarias() {
@@ -269,62 +259,58 @@ public class MenuController {
         do {
             opcion = vistaSecretaria.mostrarMenu();
 
-            switch (opcion) {
-                case 1:
-                    DatoSecretaria nuevaSecretaria = vistaSecretaria.pedirDatosSecretaria();
-                    Secretaria secretariaRegistrada = secretariaController.registrarSecretaria(
-                            nuevaSecretaria.getNombre(),
-                            nuevaSecretaria.getApellido(),
-                            nuevaSecretaria.getDni()
-                    );
-                    if (secretariaRegistrada != null) {
+            try {
+                switch (opcion) {
+                    case 1: {
+                        DatoSecretaria dato = vistaSecretaria.pedirDatosSecretaria();
+                        Secretaria registrada = secretariaController.registrarSecretaria(
+                                dato.getNombre(), dato.getApellido(), dato.getDni());
                         vistaSecretaria.mostrarMensaje("Secretaria registrada correctamente.");
-                        vistaSecretaria.mostrarSecretaria(secretariaRegistrada);
+                        vistaSecretaria.mostrarSecretaria(registrada);
+                        break;
                     }
-                    break;
-
-                case 2:
-                    Long idSecretaria = vistaSecretaria.pedirIdSecretaria();
-                    vistaSecretaria.mostrarSecretaria(secretariaController.buscarSecretariaPorId(idSecretaria));
-                    break;
-
-                case 3:
-                    Integer dniSecretaria = vistaSecretaria.pedirDniSecretaria();
-                    vistaSecretaria.mostrarSecretaria(secretariaController.buscarSecretariaPorDni(dniSecretaria));
-                    break;
-
-                case 4:
-                    vistaSecretaria.mostrarSecretarias(secretariaController.listarSecretarias());
-                    break;
-
-                case 5:
-                    DatoSecretaria secretariaActualizada = vistaSecretaria.pedirDatosSecretariaActualizada();
-                    Secretaria secretariaModificada = secretariaController.actualizarSecretaria(
-                            secretariaActualizada.getId(),
-                            secretariaActualizada.getNombre(),
-                            secretariaActualizada.getApellido(),
-                            secretariaActualizada.getDni()
-                    );
-                    if (secretariaModificada != null) {
+                    case 2: {
+                        Long idSecretaria = vistaSecretaria.pedirIdSecretaria();
+                        vistaSecretaria.mostrarSecretaria(secretariaController.buscarSecretariaPorId(idSecretaria));
+                        break;
+                    }
+                    case 3: {
+                        Integer dniSecretaria = vistaSecretaria.pedirDniSecretaria();
+                        vistaSecretaria.mostrarSecretaria(secretariaController.buscarSecretariaPorDni(dniSecretaria));
+                        break;
+                    }
+                    case 4:
+                        vistaSecretaria.mostrarSecretarias(secretariaController.listarSecretarias());
+                        break;
+                    case 5: {
+                        DatoSecretaria actualizada = vistaSecretaria.pedirDatosSecretariaActualizada();
+                        Secretaria modificada = secretariaController.actualizarSecretaria(
+                                actualizada.getId(),
+                                actualizada.getNombre(),
+                                actualizada.getApellido(),
+                                actualizada.getDni()
+                        );
                         vistaSecretaria.mostrarMensaje("Secretaria actualizada correctamente.");
-                        vistaSecretaria.mostrarSecretaria(secretariaModificada);
+                        vistaSecretaria.mostrarSecretaria(modificada);
+                        break;
                     }
-                    break;
-
-                case 6:
-                    Long idEliminarSecretaria = vistaSecretaria.pedirIdSecretaria();
-                    if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar la secretaria?")) {
-                        if (secretariaController.eliminarSecretaria(idEliminarSecretaria)) {
+                    case 6: {
+                        Long idEliminar = vistaSecretaria.pedirIdSecretaria();
+                        if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar la secretaria?")
+                                && secretariaController.eliminarSecretaria(idEliminar)) {
                             vistaSecretaria.mostrarMensaje("Secretaria eliminada correctamente.");
                         }
+                        break;
                     }
-                    break;
-
-                case 0:
-                    break;
-
-                default:
-                    vistaSecretaria.mostrarMensaje("Opcion invalida.");
+                    case 0:
+                        break;
+                    default:
+                        vistaSecretaria.mostrarMensaje("Opcion invalida.");
+                }
+            } catch (ClinicaException e) {
+                vistaMenu.mostrarError(e.getMessage());
+            } catch (RuntimeException e) {
+                vistaMenu.mostrarError("Error inesperado: " + e.getMessage());
             }
         } while (opcion != 0);
     }
@@ -335,16 +321,15 @@ public class MenuController {
         do {
             opcion = vistaTurno.mostrarMenu();
 
-            switch (opcion) {
-                case 1:
-                    DatoTurno nuevoTurno = vistaTurno.pedirDatosTurno();
+            try {
+                switch (opcion) {
+                    case 1: {
+                        DatoTurno nuevoTurno = vistaTurno.pedirDatosTurno();
+                        Paciente paciente = pacienteController.buscarPacientePorDni(nuevoTurno.getDniPaciente());
+                        Odontologo odontologo = odontologoController.buscarOdontologoPorMatricula(nuevoTurno.getMatriculaOdontologo());
+                        Secretaria secretaria = secretariaController.buscarSecretariaPorDni(nuevoTurno.getDniSecretaria());
 
-                    Paciente paciente = pacienteController.buscarPacientePorDni(nuevoTurno.getDniPaciente());
-                    Odontologo odontologo = odontologoController.buscarOdontologoPorMatricula(nuevoTurno.getMatriculaOdontologo());
-                    Secretaria secretaria = secretariaController.buscarSecretariaPorDni(nuevoTurno.getDniSecretaria());
-
-                    if (paciente != null && odontologo != null && secretaria != null) {
-                        Turno turnoRegistrado = turnoController.registrarTurno(
+                        Turno turno = turnoController.registrarTurno(
                                 paciente.getId(),
                                 odontologo.getId(),
                                 secretaria.getId(),
@@ -352,91 +337,93 @@ public class MenuController {
                                 nuevoTurno.getHora(),
                                 nuevoTurno.getMotivoConsulta()
                         );
-
-                        if (turnoRegistrado != null) {
-                            vistaTurno.mostrarMensaje("Turno registrado correctamente.");
-                            vistaTurno.mostrarTurno(turnoRegistrado);
-                        }
+                        vistaTurno.mostrarMensaje("Turno registrado correctamente.");
+                        vistaTurno.mostrarTurno(turno);
+                        break;
                     }
-                    break;
+                    case 2: {
+                        Long idTurno = vistaTurno.pedirIdTurno();
+                        vistaTurno.mostrarTurno(turnoController.buscarTurnoPorId(idTurno));
+                        break;
+                    }
+                    case 3:
+                        vistaTurno.mostrarTurnos(turnoController.listarTurnos());
+                        break;
+                    case 4: {
+                        Long idPaciente = vistaTurno.pedirIdPaciente();
+                        vistaTurno.mostrarTurnos(turnoController.listarTurnosPorPaciente(idPaciente));
+                        break;
+                    }
+                    case 5: {
+                        Long idOdontologo = vistaTurno.pedirIdOdontologo();
+                        vistaTurno.mostrarTurnos(turnoController.listarTurnosPorOdontologo(idOdontologo));
+                        break;
+                    }
+                    case 6: {
+                        Long idSecretaria = vistaTurno.pedirIdSecretaria();
+                        vistaTurno.mostrarTurnos(turnoController.listarTurnosPorSecretaria(idSecretaria));
+                        break;
+                    }
+                    case 7: {
+                        DatoTurno actualizado = vistaTurno.pedirDatosTurnoActualizado();
+                        Odontologo odontologoAct = odontologoController.buscarOdontologoPorMatricula(actualizado.getMatriculaOdontologo());
+                        Secretaria secretariaAct = secretariaController.buscarSecretariaPorDni(actualizado.getDniSecretaria());
 
-                case 2:
-                    Long idTurno = vistaTurno.pedirIdTurno();
-                    vistaTurno.mostrarTurno(turnoController.buscarTurnoPorId(idTurno));
-                    break;
-
-                case 3:
-                    vistaTurno.mostrarTurnos(turnoController.listarTurnos());
-                    break;
-
-                case 4:
-                    Long idPaciente = vistaTurno.pedirIdPaciente();
-                    vistaTurno.mostrarTurnos(turnoController.listarTurnosPorPaciente(idPaciente));
-                    break;
-
-                case 5:
-                    Long idOdontologo = vistaTurno.pedirIdOdontologo();
-                    vistaTurno.mostrarTurnos(turnoController.listarTurnosPorOdontologo(idOdontologo));
-                    break;
-
-                case 6:
-                    Long idSecretaria = vistaTurno.pedirIdSecretaria();
-                    vistaTurno.mostrarTurnos(turnoController.listarTurnosPorSecretaria(idSecretaria));
-                    break;
-
-                case 7:
-                    DatoTurno turnoActualizado = vistaTurno.pedirDatosTurnoActualizado();
-
-                    Odontologo odontologoActualizado = odontologoController.buscarOdontologoPorMatricula(turnoActualizado.getMatriculaOdontologo());
-                    Secretaria secretariaActualizada = secretariaController.buscarSecretariaPorDni(turnoActualizado.getDniSecretaria());
-
-                    if (odontologoActualizado != null && secretariaActualizada != null) {
-                        Turno turnoModificado = turnoController.actualizarTurno(
-                                turnoActualizado.getId(),
-                                odontologoActualizado.getId(),
-                                secretariaActualizada.getId(),
-                                turnoActualizado.getFecha(),
-                                turnoActualizado.getHora(),
-                                turnoActualizado.getMotivoConsulta(),
-                                turnoActualizado.getEstado()
+                        Turno modificado = turnoController.actualizarTurno(
+                                actualizado.getId(),
+                                odontologoAct.getId(),
+                                secretariaAct.getId(),
+                                actualizado.getFecha(),
+                                actualizado.getHora(),
+                                actualizado.getMotivoConsulta(),
+                                actualizado.getEstado()
                         );
-
-                        if (turnoModificado != null) {
-                            vistaTurno.mostrarMensaje("Turno actualizado correctamente.");
-                            vistaTurno.mostrarTurno(turnoModificado);
-                        }
+                        vistaTurno.mostrarMensaje("Turno actualizado correctamente.");
+                        vistaTurno.mostrarTurno(modificado);
+                        break;
                     }
-                    break;
-
-                case 8:
-                    Long idTurnoEstado = vistaTurno.pedirIdTurno();
-                    EstadoTurno nuevoEstado = vistaTurno.pedirEstadoTurno();
-                    Turno turnoEstadoActualizado = turnoController.cambiarEstadoTurno(idTurnoEstado, nuevoEstado);
-                    if (turnoEstadoActualizado != null) {
+                    case 8: {
+                        Long idTurnoEstado = vistaTurno.pedirIdTurno();
+                        EstadoTurno nuevoEstado = vistaTurno.pedirEstadoTurno();
+                        Turno t = turnoController.cambiarEstadoTurno(idTurnoEstado, nuevoEstado);
                         vistaTurno.mostrarMensaje("Estado del turno actualizado correctamente.");
-                        vistaTurno.mostrarTurno(turnoEstadoActualizado);
+                        vistaTurno.mostrarTurno(t);
+                        break;
                     }
-                    break;
-
-                case 9:
-                    Long idEliminarTurno = vistaTurno.pedirIdTurno();
-                    if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el turno?")) {
-                        if (turnoController.eliminarTurno(idEliminarTurno)) {
+                    case 9: {
+                        Long idEliminar = vistaTurno.pedirIdTurno();
+                        if (vistaMenu.pedirConfirmacion("Seguro que desea eliminar el turno?")
+                                && turnoController.eliminarTurno(idEliminar)) {
                             vistaTurno.mostrarMensaje("Turno eliminado correctamente.");
                         }
+                        break;
                     }
-                    break;
-
-                case 10:
-                    Long idTurnoMonto = vistaTurno.pedirIdTurno();
-                    vistaTurno.mostrarMonto(turnoController.calcularMontoTurno(idTurnoMonto));
-                    break;
-
-                case 0:
-                    break;
-
-                default:
-                    vistaTurno.mostrarMensaje("Opcion invalida.");
+                    case 10: {
+                        Long idTurnoMonto = vistaTurno.pedirIdTurno();
+                        vistaTurno.mostrarMonto(turnoController.calcularMontoTurno(idTurnoMonto));
+                        break;
+                    }
+                    case 11: {
+                        LocalDate desde = vistaTurno.pedirFecha("Fecha desde (yyyy-MM-dd): ");
+                        LocalDate hasta = vistaTurno.pedirFecha("Fecha hasta (yyyy-MM-dd): ");
+                        vistaTurno.mostrarTurnos(turnoController.buscarTurnosPorRangoFechas(desde, hasta));
+                        break;
+                    }
+                    case 12: {
+                        Long idOdontologo = vistaTurno.pedirIdOdontologo();
+                        Long idPaciente = vistaTurno.pedirIdPaciente();
+                        vistaTurno.mostrarTurnos(turnoController.buscarTurnosPorOdontologoYPaciente(idOdontologo, idPaciente));
+                        break;
+                    }
+                    case 0:
+                        break;
+                    default:
+                        vistaTurno.mostrarMensaje("Opcion invalida.");
+                }
+            } catch (ClinicaException e) {
+                vistaMenu.mostrarError(e.getMessage());
+            } catch (RuntimeException e) {
+                vistaMenu.mostrarError("Error inesperado: " + e.getMessage());
             }
         } while (opcion != 0);
     }

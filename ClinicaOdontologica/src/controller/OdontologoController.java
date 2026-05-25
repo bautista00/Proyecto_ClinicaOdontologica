@@ -36,9 +36,6 @@ public class OdontologoController {
                                            String matricula) {
 
         Odontologo odontologoExistente = odontologoService.buscarPorId(id);
-        if (odontologoExistente == null) {
-            return null;
-        }
 
         odontologoExistente.setNombre(nombre);
         odontologoExistente.setApellido(apellido);

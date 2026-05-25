@@ -41,6 +41,14 @@ public class TurnoController {
         return turnoService.listarTodos();
     }
 
+    public List<Turno> buscarTurnosPorRangoFechas(LocalDate desde, LocalDate hasta) {
+        return turnoService.buscarPorRangoFechas(desde, hasta);
+    }
+
+    public List<Turno> buscarTurnosPorOdontologoYPaciente(Long idOdontologo, Long idPaciente) {
+        return turnoService.buscarPorOdontologoYPaciente(idOdontologo, idPaciente);
+    }
+
     public List<Turno> listarTurnosPorPaciente(Long idPaciente) {
         return turnoService.listarPorPaciente(idPaciente);
     }

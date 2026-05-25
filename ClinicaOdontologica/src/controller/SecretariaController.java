@@ -32,9 +32,6 @@ public class SecretariaController {
 
     public Secretaria actualizarSecretaria(Long id, String nombre, String apellido, Integer dni) {
         Secretaria secretariaExistente = secretariaService.buscarPorId(id);
-        if (secretariaExistente == null) {
-            return null;
-        }
 
         secretariaExistente.setNombre(nombre);
         secretariaExistente.setApellido(apellido);

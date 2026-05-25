@@ -1,6 +1,7 @@
 package service;
 
 import entity.Secretaria;
+import exception.DatoInvalidoException;
 import repository.SecretariaRepository;
 
 import java.util.List;
@@ -15,13 +16,10 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
 
     @Override
     public Secretaria registrar(Secretaria secretaria) {
-        if (!validarSecretaria(secretaria)) {
-            return null;
-        }
+        validarSecretaria(secretaria);
 
         if (secretariaRepository.existeDni(secretaria.getDni())) {
-            System.out.println("Error: ya existe una secretaria con ese DNI.");
-            return null;
+            throw new DatoInvalidoException("Ya existe una secretaria con el DNI " + secretaria.getDni() + ".");
         }
 
         secretariaRepository.guardar(secretaria);
@@ -31,14 +29,12 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
     @Override
     public Secretaria buscarPorId(Long id) {
         if (id == null || id <= 0) {
-            System.out.println("Error: el ID de la secretaria es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID de la secretaria debe ser un numero positivo.");
         }
 
         Secretaria secretaria = secretariaRepository.buscarPorId(id);
         if (secretaria == null) {
-            System.out.println("Error: no existe una secretaria con ese ID.");
-            return null;
+            throw new DatoInvalidoException("No existe una secretaria con ID " + id + ".");
         }
 
         return secretaria;
@@ -46,14 +42,12 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
 
     public Secretaria buscarPorDni(Integer dni) {
         if (dni == null || dni <= 0) {
-            System.out.println("Error: el DNI es invalido.");
-            return null;
+            throw new DatoInvalidoException("El DNI debe ser un numero positivo.");
         }
 
         Secretaria secretaria = secretariaRepository.buscarPorDni(dni);
         if (secretaria == null) {
-            System.out.println("Error: no existe una secretaria con ese DNI.");
-            return null;
+            throw new DatoInvalidoException("No existe una secretaria con DNI " + dni + ".");
         }
 
         return secretaria;
@@ -66,20 +60,16 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
 
     @Override
     public Secretaria actualizar(Secretaria secretaria) {
-        if (!validarSecretaria(secretaria)) {
-            return null;
-        }
+        validarSecretaria(secretaria);
 
         Secretaria secretariaExistente = secretariaRepository.buscarPorId(secretaria.getId());
         if (secretariaExistente == null) {
-            System.out.println("Error: no existe una secretaria con ese ID.");
-            return null;
+            throw new DatoInvalidoException("No existe una secretaria con ID " + secretaria.getId() + ".");
         }
 
         Secretaria secretariaConMismoDni = secretariaRepository.buscarPorDni(secretaria.getDni());
         if (secretariaConMismoDni != null && !secretariaConMismoDni.getId().equals(secretaria.getId())) {
-            System.out.println("Error: ya existe otra secretaria con ese DNI.");
-            return null;
+            throw new DatoInvalidoException("Ya existe otra secretaria con el DNI " + secretaria.getDni() + ".");
         }
 
         secretariaRepository.actualizar(secretaria);
@@ -89,41 +79,29 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
     @Override
     public boolean eliminar(Long id) {
         if (id == null || id <= 0) {
-            System.out.println("Error: el ID de la secretaria es invalido.");
-            return false;
+            throw new DatoInvalidoException("El ID de la secretaria debe ser un numero positivo.");
         }
 
-        Secretaria secretariaExistente = secretariaRepository.buscarPorId(id);
-        if (secretariaExistente == null) {
-            System.out.println("Error: no existe una secretaria con ese ID.");
-            return false;
+        if (secretariaRepository.buscarPorId(id) == null) {
+            throw new DatoInvalidoException("No existe una secretaria con ID " + id + ".");
         }
 
         secretariaRepository.eliminar(id);
         return true;
     }
 
-    private boolean validarSecretaria(Secretaria secretaria) {
+    private void validarSecretaria(Secretaria secretaria) {
         if (secretaria == null) {
-            System.out.println("Error: la secretaria no puede ser nula.");
-            return false;
+            throw new DatoInvalidoException("La secretaria no puede ser nula.");
         }
-
-        if (secretaria.getNombre() == null || secretaria.getNombre().isBlank()) {
-            System.out.println("Error: el nombre de la secretaria no puede estar vacio.");
-            return false;
+        if (secretaria.getNombre() == null || secretaria.getNombre().isEmpty()) {
+            throw new DatoInvalidoException("El nombre no puede estar vacio.");
         }
-
-        if (secretaria.getApellido() == null || secretaria.getApellido().isBlank()) {
-            System.out.println("Error: el apellido de la secretaria no puede estar vacio.");
-            return false;
+        if (secretaria.getApellido() == null || secretaria.getApellido().isEmpty()) {
+            throw new DatoInvalidoException("El apellido no puede estar vacio.");
         }
-
         if (secretaria.getDni() == null || secretaria.getDni() <= 0) {
-            System.out.println("Error: el DNI de la secretaria es invalido.");
-            return false;
+            throw new DatoInvalidoException("El DNI debe ser un numero positivo.");
         }
-
-        return true;
     }
 }

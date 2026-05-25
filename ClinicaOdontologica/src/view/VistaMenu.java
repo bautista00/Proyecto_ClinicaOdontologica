@@ -18,11 +18,19 @@ public class VistaMenu {
         System.out.println("4. Gestion de Turnos");
         System.out.println("0. Salir");
         System.out.print("Seleccione una opcion: ");
-        return Integer.parseInt(scanner.nextLine());
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    public void mostrarError(String mensaje) {
+        System.out.println("\n[!] " + mensaje);
     }
 
     public boolean pedirConfirmacion(String mensaje) {

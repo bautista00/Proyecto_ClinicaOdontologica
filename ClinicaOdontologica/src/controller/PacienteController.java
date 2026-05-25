@@ -42,6 +42,10 @@ public class PacienteController {
         return pacienteService.listarTodos();
     }
 
+    public List<Paciente> listarPacientesOrdenadosPorApellido() {
+        return pacienteService.listarOrdenadosPorApellido();
+    }
+
     public Paciente actualizarPaciente(Long id,
                                        String nombre,
                                        String apellido,
@@ -54,9 +58,6 @@ public class PacienteController {
                                        Boolean obraSocial) {
 
         Paciente pacienteExistente = pacienteService.buscarPorId(id);
-        if (pacienteExistente == null) {
-            return null;
-        }
 
         pacienteExistente.setNombre(nombre);
         pacienteExistente.setApellido(apellido);

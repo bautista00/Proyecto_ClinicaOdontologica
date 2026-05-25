@@ -5,6 +5,10 @@ import entity.Odontologo;
 import entity.Paciente;
 import entity.Secretaria;
 import entity.Turno;
+import exception.DatoInvalidoException;
+import exception.OdontologoNoEncontradoException;
+import exception.PacienteNoEncontradoException;
+import exception.TurnoYaReservadoException;
 import repository.OdontologoRepository;
 import repository.PacienteRepository;
 import repository.SecretariaRepository;
@@ -12,9 +16,14 @@ import repository.TurnoRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TurnoServiceImpl implements IService<Turno> {
+
+    public static final Comparator<Turno> POR_FECHA_HORA =
+            Comparator.comparing(Turno::getFecha).thenComparing(Turno::getHora);
 
     private TurnoRepository turnoRepository;
     private PacienteRepository pacienteRepository;
@@ -36,16 +45,14 @@ public class TurnoServiceImpl implements IService<Turno> {
 
     @Override
     public Turno registrar(Turno turno) {
-        if (!validarTurnoNuevo(turno)) {
-            return null;
-        }
+        validarTurnoNuevo(turno);
 
         if (turnoRepository.existeConflictoHorario(
                 turno.getOdontologo().getId(),
                 turno.getFecha(),
                 turno.getHora())) {
-            System.out.println("Error: el odontologo ya tiene un turno asignado en esa fecha y hora.");
-            return null;
+            throw new TurnoYaReservadoException("El odontologo ya tiene un turno reservado el "
+                    + turno.getFecha() + " a las " + turno.getHora() + ".");
         }
 
         turnoRepository.guardar(turno);
@@ -61,32 +68,19 @@ public class TurnoServiceImpl implements IService<Turno> {
                                 String motivoConsulta) {
 
         Paciente paciente = obtenerPacienteExistente(idPaciente);
-        if (paciente == null) {
-            return null;
-        }
-
         Odontologo odontologo = obtenerOdontologoExistente(idOdontologo);
-        if (odontologo == null) {
-            return null;
-        }
-
         Secretaria secretaria = obtenerSecretariaExistente(idSecretaria);
-        if (secretaria == null) {
-            return null;
-        }
 
-        if (!validarFechaHora(fecha, hora) || !validarMotivo(motivoConsulta)) {
-            return null;
-        }
+        validarFechaHora(fecha, hora);
+        validarMotivo(motivoConsulta);
 
         if (!odontologo.puedeAtender(motivoConsulta)) {
-            System.out.println("Error: el odontologo seleccionado no puede atender ese motivo de consulta.");
-            return null;
+            throw new DatoInvalidoException("El odontologo seleccionado no puede atender ese motivo de consulta.");
         }
 
         if (turnoRepository.existeConflictoHorario(odontologo.getId(), fecha, hora)) {
-            System.out.println("Error: el odontologo ya tiene un turno asignado en esa fecha y hora.");
-            return null;
+            throw new TurnoYaReservadoException("El odontologo ya tiene un turno reservado el "
+                    + fecha + " a las " + hora + ".");
         }
 
         Turno turno = new Turno(paciente, odontologo, secretaria, fecha, hora, motivoConsulta);
@@ -98,14 +92,12 @@ public class TurnoServiceImpl implements IService<Turno> {
     @Override
     public Turno buscarPorId(Long id) {
         if (id == null || id <= 0) {
-            System.out.println("Error: el ID del turno es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID del turno debe ser un numero positivo.");
         }
 
         Turno turno = turnoRepository.buscarPorId(id);
         if (turno == null) {
-            System.out.println("Error: no existe un turno con ese ID.");
-            return null;
+            throw new DatoInvalidoException("No existe un turno con ID " + id + ".");
         }
 
         return turno;
@@ -117,56 +109,72 @@ public class TurnoServiceImpl implements IService<Turno> {
     }
 
     public List<Turno> listarPorPaciente(Long idPaciente) {
-        Paciente paciente = obtenerPacienteExistente(idPaciente);
-        if (paciente == null) {
-            return null;
-        }
-
-        return turnoRepository.buscarPorPaciente(idPaciente);
+        obtenerPacienteExistente(idPaciente);
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> t.getPaciente().getId().equals(idPaciente))
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
     }
 
     public List<Turno> listarPorOdontologo(Long idOdontologo) {
-        Odontologo odontologo = obtenerOdontologoExistente(idOdontologo);
-        if (odontologo == null) {
-            return null;
-        }
-
-        return turnoRepository.buscarPorOdontologo(idOdontologo);
+        obtenerOdontologoExistente(idOdontologo);
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> t.getOdontologo().getId().equals(idOdontologo))
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
     }
 
     public List<Turno> listarPorSecretaria(Long idSecretaria) {
-        Secretaria secretaria = obtenerSecretariaExistente(idSecretaria);
-        if (secretaria == null) {
-            return null;
+        obtenerSecretariaExistente(idSecretaria);
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> t.getSecretaria().getId().equals(idSecretaria))
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
+    }
+
+    public List<Turno> buscarPorRangoFechas(LocalDate desde, LocalDate hasta) {
+        if (desde == null || hasta == null) {
+            throw new DatoInvalidoException("Las fechas 'desde' y 'hasta' no pueden ser nulas.");
+        }
+        if (desde.isAfter(hasta)) {
+            throw new DatoInvalidoException("La fecha 'desde' no puede ser posterior a 'hasta'.");
         }
 
-        return turnoRepository.buscarPorSecretaria(idSecretaria);
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> !t.getFecha().isBefore(desde) && !t.getFecha().isAfter(hasta))
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
+    }
+
+    public List<Turno> buscarPorOdontologoYPaciente(Long idOdontologo, Long idPaciente) {
+        obtenerOdontologoExistente(idOdontologo);
+        obtenerPacienteExistente(idPaciente);
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> t.getOdontologo().getId().equals(idOdontologo))
+                .filter(t -> t.getPaciente().getId().equals(idPaciente))
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Turno actualizar(Turno turno) {
         if (turno == null) {
-            System.out.println("Error: el turno no puede ser nulo.");
-            return null;
+            throw new DatoInvalidoException("El turno no puede ser nulo.");
         }
 
-        Turno turnoExistente = turnoRepository.buscarPorId(turno.getId());
-        if (turnoExistente == null) {
-            System.out.println("Error: no existe un turno con ese ID.");
-            return null;
+        if (turnoRepository.buscarPorId(turno.getId()) == null) {
+            throw new DatoInvalidoException("No existe un turno con ID " + turno.getId() + ".");
         }
 
-        if (!validarTurnoActualizacion(turno)) {
-            return null;
-        }
+        validarTurnoActualizacion(turno);
 
         if (turnoRepository.existeConflictoHorarioExcluyendoTurno(
                 turno.getId(),
                 turno.getOdontologo().getId(),
                 turno.getFecha(),
                 turno.getHora())) {
-            System.out.println("Error: el odontologo ya tiene otro turno asignado en esa fecha y hora.");
-            return null;
+            throw new TurnoYaReservadoException("El odontologo ya tiene otro turno reservado el "
+                    + turno.getFecha() + " a las " + turno.getHora() + ".");
         }
 
         turnoRepository.actualizar(turno);
@@ -182,35 +190,22 @@ public class TurnoServiceImpl implements IService<Turno> {
                                 EstadoTurno estado) {
 
         Turno turno = obtenerTurnoExistente(idTurno);
-        if (turno == null) {
-            return null;
-        }
 
         Odontologo odontologoAnterior = turno.getOdontologo();
         Secretaria secretariaAnterior = turno.getSecretaria();
 
         Odontologo nuevoOdontologo = obtenerOdontologoExistente(idOdontologo);
-        if (nuevoOdontologo == null) {
-            return null;
-        }
-
         Secretaria nuevaSecretaria = obtenerSecretariaExistente(idSecretaria);
-        if (nuevaSecretaria == null) {
-            return null;
-        }
 
-        if (!validarFechaHora(fecha, hora) || !validarMotivo(motivoConsulta)) {
-            return null;
-        }
+        validarFechaHora(fecha, hora);
+        validarMotivo(motivoConsulta);
 
         if (estado == null) {
-            System.out.println("Error: el estado del turno no puede ser nulo.");
-            return null;
+            throw new DatoInvalidoException("El estado del turno no puede ser nulo.");
         }
 
         if (!nuevoOdontologo.puedeAtender(motivoConsulta)) {
-            System.out.println("Error: el odontologo seleccionado no puede atender ese motivo de consulta.");
-            return null;
+            throw new DatoInvalidoException("El odontologo seleccionado no puede atender ese motivo de consulta.");
         }
 
         if (turnoRepository.existeConflictoHorarioExcluyendoTurno(
@@ -218,8 +213,8 @@ public class TurnoServiceImpl implements IService<Turno> {
                 nuevoOdontologo.getId(),
                 fecha,
                 hora)) {
-            System.out.println("Error: el odontologo ya tiene otro turno asignado en esa fecha y hora.");
-            return null;
+            throw new TurnoYaReservadoException("El odontologo ya tiene otro turno reservado el "
+                    + fecha + " a las " + hora + ".");
         }
 
         turno.setOdontologo(nuevoOdontologo);
@@ -245,15 +240,10 @@ public class TurnoServiceImpl implements IService<Turno> {
 
     public Turno cambiarEstado(Long idTurno, EstadoTurno nuevoEstado) {
         if (nuevoEstado == null) {
-            System.out.println("Error: el estado del turno no puede ser nulo.");
-            return null;
+            throw new DatoInvalidoException("El estado del turno no puede ser nulo.");
         }
 
         Turno turno = obtenerTurnoExistente(idTurno);
-        if (turno == null) {
-            return null;
-        }
-
         turno.setEstado(nuevoEstado);
         turnoRepository.actualizar(turno);
         return turno;
@@ -261,171 +251,115 @@ public class TurnoServiceImpl implements IService<Turno> {
 
     public Double calcularMonto(Long idTurno) {
         Turno turno = obtenerTurnoExistente(idTurno);
-        if (turno == null) {
-            return null;
-        }
-
         return facturador.calcularMonto(turno.getPaciente(), turno.getOdontologo());
     }
 
     @Override
     public boolean eliminar(Long id) {
         Turno turno = obtenerTurnoExistente(id);
-        if (turno == null) {
-            return false;
-        }
-
         sincronizarBaja(turno);
         turnoRepository.eliminar(id);
         return true;
     }
 
-    private boolean validarTurnoNuevo(Turno turno) {
+    private void validarTurnoNuevo(Turno turno) {
         if (turno == null) {
-            System.out.println("Error: el turno no puede ser nulo.");
-            return false;
+            throw new DatoInvalidoException("El turno no puede ser nulo.");
         }
-
         if (turno.getPaciente() == null || pacienteRepository.buscarPorId(turno.getPaciente().getId()) == null) {
-            System.out.println("Error: el paciente del turno no existe.");
-            return false;
+            throw new PacienteNoEncontradoException("El paciente del turno no existe.");
         }
-
         if (turno.getOdontologo() == null || odontologoRepository.buscarPorId(turno.getOdontologo().getId()) == null) {
-            System.out.println("Error: el odontologo del turno no existe.");
-            return false;
+            throw new OdontologoNoEncontradoException("El odontologo del turno no existe.");
         }
-
         if (turno.getSecretaria() == null || secretariaRepository.buscarPorId(turno.getSecretaria().getId()) == null) {
-            System.out.println("Error: la secretaria del turno no existe.");
-            return false;
+            throw new DatoInvalidoException("La secretaria del turno no existe.");
         }
-
-        if (!validarFechaHora(turno.getFecha(), turno.getHora()) || !validarMotivo(turno.getMotivoConsulta())) {
-            return false;
-        }
+        validarFechaHora(turno.getFecha(), turno.getHora());
+        validarMotivo(turno.getMotivoConsulta());
 
         if (!turno.getOdontologo().puedeAtender(turno.getMotivoConsulta())) {
-            System.out.println("Error: el odontologo seleccionado no puede atender ese motivo de consulta.");
-            return false;
+            throw new DatoInvalidoException("El odontologo seleccionado no puede atender ese motivo de consulta.");
         }
-
-        return true;
     }
 
-    private boolean validarTurnoActualizacion(Turno turno) {
+    private void validarTurnoActualizacion(Turno turno) {
         if (turno.getPaciente() == null || pacienteRepository.buscarPorId(turno.getPaciente().getId()) == null) {
-            System.out.println("Error: el paciente del turno no existe.");
-            return false;
+            throw new PacienteNoEncontradoException("El paciente del turno no existe.");
         }
-
         if (turno.getOdontologo() == null || odontologoRepository.buscarPorId(turno.getOdontologo().getId()) == null) {
-            System.out.println("Error: el odontologo del turno no existe.");
-            return false;
+            throw new OdontologoNoEncontradoException("El odontologo del turno no existe.");
         }
-
         if (turno.getSecretaria() == null || secretariaRepository.buscarPorId(turno.getSecretaria().getId()) == null) {
-            System.out.println("Error: la secretaria del turno no existe.");
-            return false;
+            throw new DatoInvalidoException("La secretaria del turno no existe.");
         }
-
-        if (!validarFechaHora(turno.getFecha(), turno.getHora()) || !validarMotivo(turno.getMotivoConsulta())) {
-            return false;
-        }
+        validarFechaHora(turno.getFecha(), turno.getHora());
+        validarMotivo(turno.getMotivoConsulta());
 
         if (turno.getEstado() == null) {
-            System.out.println("Error: el estado del turno no puede ser nulo.");
-            return false;
+            throw new DatoInvalidoException("El estado del turno no puede ser nulo.");
         }
-
         if (!turno.getOdontologo().puedeAtender(turno.getMotivoConsulta())) {
-            System.out.println("Error: el odontologo seleccionado no puede atender ese motivo de consulta.");
-            return false;
+            throw new DatoInvalidoException("El odontologo seleccionado no puede atender ese motivo de consulta.");
         }
-
-        return true;
     }
 
-    private boolean validarFechaHora(LocalDate fecha, LocalTime hora) {
+    private void validarFechaHora(LocalDate fecha, LocalTime hora) {
         if (fecha == null) {
-            System.out.println("Error: la fecha del turno no puede ser nula.");
-            return false;
+            throw new DatoInvalidoException("La fecha no puede ser nula.");
         }
-
         if (hora == null) {
-            System.out.println("Error: la hora del turno no puede ser nula.");
-            return false;
+            throw new DatoInvalidoException("La hora no puede ser nula.");
         }
-
-        return true;
     }
 
-    private boolean validarMotivo(String motivoConsulta) {
-        if (motivoConsulta == null || motivoConsulta.isBlank()) {
-            System.out.println("Error: el motivo de consulta no puede estar vacio.");
-            return false;
+    private void validarMotivo(String motivoConsulta) {
+        if (motivoConsulta == null || motivoConsulta.isEmpty()) {
+            throw new DatoInvalidoException("El motivo de consulta no puede estar vacio.");
         }
-
-        return true;
     }
 
     private Paciente obtenerPacienteExistente(Long idPaciente) {
         if (idPaciente == null || idPaciente <= 0) {
-            System.out.println("Error: el ID del paciente es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID del paciente debe ser un numero positivo.");
         }
-
         Paciente paciente = pacienteRepository.buscarPorId(idPaciente);
         if (paciente == null) {
-            System.out.println("Error: no existe un paciente con ese ID.");
-            return null;
+            throw new PacienteNoEncontradoException("No existe un paciente con ID " + idPaciente + ".");
         }
-
         return paciente;
     }
 
     private Odontologo obtenerOdontologoExistente(Long idOdontologo) {
         if (idOdontologo == null || idOdontologo <= 0) {
-            System.out.println("Error: el ID del odontologo es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID del odontologo debe ser un numero positivo.");
         }
-
         Odontologo odontologo = odontologoRepository.buscarPorId(idOdontologo);
         if (odontologo == null) {
-            System.out.println("Error: no existe un odontologo con ese ID.");
-            return null;
+            throw new OdontologoNoEncontradoException("No existe un odontologo con ID " + idOdontologo + ".");
         }
-
         return odontologo;
     }
 
     private Secretaria obtenerSecretariaExistente(Long idSecretaria) {
         if (idSecretaria == null || idSecretaria <= 0) {
-            System.out.println("Error: el ID de la secretaria es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID de la secretaria debe ser un numero positivo.");
         }
-
         Secretaria secretaria = secretariaRepository.buscarPorId(idSecretaria);
         if (secretaria == null) {
-            System.out.println("Error: no existe una secretaria con ese ID.");
-            return null;
+            throw new DatoInvalidoException("No existe una secretaria con ID " + idSecretaria + ".");
         }
-
         return secretaria;
     }
 
     private Turno obtenerTurnoExistente(Long idTurno) {
         if (idTurno == null || idTurno <= 0) {
-            System.out.println("Error: el ID del turno es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID del turno debe ser un numero positivo.");
         }
-
         Turno turno = turnoRepository.buscarPorId(idTurno);
         if (turno == null) {
-            System.out.println("Error: no existe un turno con ese ID.");
-            return null;
+            throw new DatoInvalidoException("No existe un turno con ID " + idTurno + ".");
         }
-
         return turno;
     }
 

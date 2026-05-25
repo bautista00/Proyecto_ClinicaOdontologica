@@ -1,0 +1,174 @@
+<mxfile host="app.diagrams.net" modified="2026-05-22T00:00:00.000Z" agent="Mozilla/5.0" version="22.1.16" type="device">
+  <diagram id="alta_turno" name="Alta de Turno">
+    <mxGraphModel dx="1422" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="actor" value="Secretaria (Usuario)" style="shape=umlActor;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="40" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="L_actor" value="" style="endArrow=none;dashed=1;html=1;strokeColor=#999999;" edge="1" parent="1" source="actor">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="120" as="sourcePoint" />
+            <mxPoint x="60" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="vista" value=":VistaTurno" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="40" width="120" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="menu" value=":MenuController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="120" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ctrl" value=":TurnoController" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="120" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="svc" value=":TurnoServiceImpl" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="640" y="40" width="140" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pacRepo" value=":PacienteRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="820" y="40" width="140" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="odoRepo" value=":OdontologoRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="40" width="150" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="turnoRepo" value=":TurnoRepository" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="40" width="140" height="780" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m1" value="1: pedirDatosTurno()" style="html=1;endArrow=block;elbow=vertical;startArrow=none;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="150" as="sourcePoint" />
+            <mxPoint x="220" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m2" value="2: DatoTurno" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="220" y="180" as="sourcePoint" />
+            <mxPoint x="60" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m3" value="3: registrarTurno(idPaciente, idOdontologo, idSecretaria, fecha, hora, motivo)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="220" as="sourcePoint" />
+            <mxPoint x="540" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m4" value="4: registrarTurno(...)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="250" as="sourcePoint" />
+            <mxPoint x="710" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m5" value="5: buscarPorId(idPaciente)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="290" as="sourcePoint" />
+            <mxPoint x="890" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m5r" value="6: Paciente | null" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="890" y="320" as="sourcePoint" />
+            <mxPoint x="710" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="alt1" value="alt [paciente == null]&#10;throw PacienteNoEncontradoException" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#B85450;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="345" width="540" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m6" value="7: buscarPorId(idOdontologo)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="405" as="sourcePoint" />
+            <mxPoint x="1075" y="405" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m6r" value="8: Odontologo" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1075" y="435" as="sourcePoint" />
+            <mxPoint x="710" y="435" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m7" value="9: validarFechaHora() / validarMotivo() / puedeAtender(motivo)" style="html=1;endArrow=block;endFill=1;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="465" as="sourcePoint" />
+            <mxPoint x="710" y="500" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="760" y="465" />
+              <mxPoint x="760" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="alt2" value="alt [datos invalidos]&#10;throw DatoInvalidoException" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#B85450;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="510" width="540" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m8" value="10: existeConflictoHorario(idOdontologo, fecha, hora)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="570" as="sourcePoint" />
+            <mxPoint x="1260" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m8r" value="11: boolean" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1260" y="600" as="sourcePoint" />
+            <mxPoint x="710" y="600" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="alt3" value="alt [conflicto == true]&#10;throw TurnoYaReservadoException" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#B85450;align=left;verticalAlign=top;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="610" width="540" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m9" value="12: guardar(turno)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="670" as="sourcePoint" />
+            <mxPoint x="1260" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m9r" value="13: ok" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1260" y="700" as="sourcePoint" />
+            <mxPoint x="710" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m10" value="14: Turno" style="html=1;endArrow=open;dashed=1;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="730" as="sourcePoint" />
+            <mxPoint x="380" y="730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="m11" value="15: mostrarTurno(turno)" style="html=1;endArrow=block;endFill=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="770" as="sourcePoint" />
+            <mxPoint x="220" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="nota" value="Notas:&#10;- Cualquier excepcion (ClinicaException) es capturada por MenuController y se muestra como mensaje amigable via VistaMenu.mostrarError().&#10;- Las alt boxes representan ramas alternativas (throw)." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="830" width="1290" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

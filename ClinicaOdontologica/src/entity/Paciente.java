@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Paciente extends Persona {
+public class Paciente extends Persona implements Comparable<Paciente> {
 
     private static Long contadorId = 0L;
 
@@ -71,6 +71,15 @@ public class Paciente extends Persona {
 
     public void removerTurno(Turno turno) {
         historialPaciente.remove(turno);
+    }
+
+    @Override
+    public int compareTo(Paciente otro) {
+        int cmpApellido = this.apellido.compareToIgnoreCase(otro.apellido);
+        if (cmpApellido != 0) {
+            return cmpApellido;
+        }
+        return this.nombre.compareToIgnoreCase(otro.nombre);
     }
 
     @Override

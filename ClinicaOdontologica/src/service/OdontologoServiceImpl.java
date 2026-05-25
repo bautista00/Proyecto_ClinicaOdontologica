@@ -1,6 +1,8 @@
 package service;
 
 import entity.Odontologo;
+import exception.DatoInvalidoException;
+import exception.OdontologoNoEncontradoException;
 import repository.OdontologoRepository;
 
 import java.util.List;
@@ -15,13 +17,10 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
 
     @Override
     public Odontologo registrar(Odontologo odontologo) {
-        if (!validarOdontologo(odontologo)) {
-            return null;
-        }
+        validarOdontologo(odontologo);
 
         if (odontologoRepository.existeMatricula(odontologo.getMatricula())) {
-            System.out.println("Error: ya existe un odontologo con esa matricula.");
-            return null;
+            throw new DatoInvalidoException("Ya existe un odontologo con la matricula " + odontologo.getMatricula() + ".");
         }
 
         odontologoRepository.guardar(odontologo);
@@ -31,29 +30,25 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
     @Override
     public Odontologo buscarPorId(Long id) {
         if (id == null || id <= 0) {
-            System.out.println("Error: el ID del odontologo es invalido.");
-            return null;
+            throw new DatoInvalidoException("El ID del odontologo debe ser un numero positivo.");
         }
 
         Odontologo odontologo = odontologoRepository.buscarPorId(id);
         if (odontologo == null) {
-            System.out.println("Error: no existe un odontologo con ese ID.");
-            return null;
+            throw new OdontologoNoEncontradoException("No existe un odontologo con ID " + id + ".");
         }
 
         return odontologo;
     }
 
     public Odontologo buscarPorMatricula(String matricula) {
-        if (matricula == null || matricula.isBlank()) {
-            System.out.println("Error: la matricula es invalida.");
-            return null;
+        if (matricula == null || matricula.isEmpty()) {
+            throw new DatoInvalidoException("La matricula no puede estar vacia.");
         }
 
         Odontologo odontologo = odontologoRepository.buscarPorMatricula(matricula);
         if (odontologo == null) {
-            System.out.println("Error: no existe un odontologo con esa matricula.");
-            return null;
+            throw new OdontologoNoEncontradoException("No existe un odontologo con matricula " + matricula + ".");
         }
 
         return odontologo;
@@ -66,20 +61,16 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
 
     @Override
     public Odontologo actualizar(Odontologo odontologo) {
-        if (!validarOdontologo(odontologo)) {
-            return null;
-        }
+        validarOdontologo(odontologo);
 
         Odontologo odontologoExistente = odontologoRepository.buscarPorId(odontologo.getId());
         if (odontologoExistente == null) {
-            System.out.println("Error: no existe un odontologo con ese ID.");
-            return null;
+            throw new OdontologoNoEncontradoException("No existe un odontologo con ID " + odontologo.getId() + ".");
         }
 
         Odontologo odontologoConMismaMatricula = odontologoRepository.buscarPorMatricula(odontologo.getMatricula());
         if (odontologoConMismaMatricula != null && !odontologoConMismaMatricula.getId().equals(odontologo.getId())) {
-            System.out.println("Error: ya existe otro odontologo con esa matricula.");
-            return null;
+            throw new DatoInvalidoException("Ya existe otro odontologo con la matricula " + odontologo.getMatricula() + ".");
         }
 
         odontologoRepository.actualizar(odontologo);
@@ -89,46 +80,32 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
     @Override
     public boolean eliminar(Long id) {
         if (id == null || id <= 0) {
-            System.out.println("Error: el ID del odontologo es invalido.");
-            return false;
+            throw new DatoInvalidoException("El ID del odontologo debe ser un numero positivo.");
         }
 
-        Odontologo odontologoExistente = odontologoRepository.buscarPorId(id);
-        if (odontologoExistente == null) {
-            System.out.println("Error: no existe un odontologo con ese ID.");
-            return false;
+        if (odontologoRepository.buscarPorId(id) == null) {
+            throw new OdontologoNoEncontradoException("No existe un odontologo con ID " + id + ".");
         }
 
         odontologoRepository.eliminar(id);
         return true;
     }
 
-    private boolean validarOdontologo(Odontologo odontologo) {
+    private void validarOdontologo(Odontologo odontologo) {
         if (odontologo == null) {
-            System.out.println("Error: el odontologo no puede ser nulo.");
-            return false;
+            throw new DatoInvalidoException("El odontologo no puede ser nulo.");
         }
-
-        if (odontologo.getNombre() == null || odontologo.getNombre().isBlank()) {
-            System.out.println("Error: el nombre del odontologo no puede estar vacio.");
-            return false;
+        if (odontologo.getNombre() == null || odontologo.getNombre().isEmpty()) {
+            throw new DatoInvalidoException("El nombre no puede estar vacio.");
         }
-
-        if (odontologo.getApellido() == null || odontologo.getApellido().isBlank()) {
-            System.out.println("Error: el apellido del odontologo no puede estar vacio.");
-            return false;
+        if (odontologo.getApellido() == null || odontologo.getApellido().isEmpty()) {
+            throw new DatoInvalidoException("El apellido no puede estar vacio.");
         }
-
         if (odontologo.getDni() == null || odontologo.getDni() <= 0) {
-            System.out.println("Error: el DNI del odontologo es invalido.");
-            return false;
+            throw new DatoInvalidoException("El DNI debe ser un numero positivo.");
         }
-
-        if (odontologo.getMatricula() == null || odontologo.getMatricula().isBlank()) {
-            System.out.println("Error: la matricula no puede estar vacia.");
-            return false;
+        if (odontologo.getMatricula() == null || odontologo.getMatricula().isEmpty()) {
+            throw new DatoInvalidoException("La matricula no puede estar vacia.");
         }
-
-        return true;
     }
 }

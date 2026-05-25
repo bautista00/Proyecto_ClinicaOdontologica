@@ -29,8 +29,15 @@ public class VistaTurno {
         System.out.println("8. Cambiar estado de turno");
         System.out.println("9. Eliminar turno");
         System.out.println("10. Calcular monto de turno");
+        System.out.println("11. Buscar turnos por rango de fechas");
+        System.out.println("12. Buscar turnos por odontologo y paciente");
         System.out.println("0. Volver");
-        return leerOpcionMenu("Seleccione una opcion: ", 0, 10);
+        return leerOpcionMenu("Seleccione una opcion: ", 0, 12);
+    }
+
+    public LocalDate pedirFecha(String titulo) {
+        System.out.println(titulo);
+        return leerFecha();
     }
 
     public DatoTurno pedirDatosTurno() {
