@@ -65,33 +65,4 @@ public class TurnoRepository implements IRepository<Turno> {
         return false;
     }
 
-    public List<Turno> buscarPorPaciente(Long idPaciente) {
-        List<Turno> resultado = new ArrayList<>();
-        for (Turno turno : turnos.values()) {
-            if (turno.getPaciente().getId().equals(idPaciente)) {
-                resultado.add(turno);
-            }
-        }
-        return resultado;
-    }
-
-    public List<Turno> buscarPorOdontologo(Long idOdontologo) {
-        List<Turno> resultado = new ArrayList<>();
-        for (Turno turno : turnos.values()) {
-            if (turno.getOdontologo().getId().equals(idOdontologo)) {
-                resultado.add(turno);
-            }
-        }
-        return resultado;
-    }
-
-    public List<Turno> buscarPorSecretaria(Long idSecretaria) {
-        List<Turno> resultado = new ArrayList<>();
-        for (Turno turno : turnos.values()) {
-            if (turno.getSecretaria().getId().equals(idSecretaria)) {
-                resultado.add(turno);
-            }
-        }
-        return resultado;
-    }
 }
