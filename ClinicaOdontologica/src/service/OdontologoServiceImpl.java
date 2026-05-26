@@ -98,8 +98,14 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
         if (odontologo.getNombre() == null || odontologo.getNombre().isEmpty()) {
             throw new DatoInvalidoException("El nombre no puede estar vacio.");
         }
+        if (!odontologo.getNombre().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El nombre no puede contener numeros.");
+        }
         if (odontologo.getApellido() == null || odontologo.getApellido().isEmpty()) {
             throw new DatoInvalidoException("El apellido no puede estar vacio.");
+        }
+        if (!odontologo.getApellido().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El apellido no puede contener numeros.");
         }
         if (odontologo.getDni() == null || odontologo.getDni() <= 0) {
             throw new DatoInvalidoException("El DNI debe ser un numero positivo.");

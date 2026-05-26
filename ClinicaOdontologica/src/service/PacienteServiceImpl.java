@@ -106,8 +106,14 @@ public class PacienteServiceImpl implements IService<Paciente> {
         if (paciente.getNombre() == null || paciente.getNombre().isEmpty()) {
             throw new DatoInvalidoException("El nombre no puede estar vacio.");
         }
+        if (!paciente.getNombre().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El nombre no puede contener numeros.");
+        }
         if (paciente.getApellido() == null || paciente.getApellido().isEmpty()) {
             throw new DatoInvalidoException("El apellido no puede estar vacio.");
+        }
+        if (!paciente.getApellido().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El apellido no puede contener numeros.");
         }
         if (paciente.getDni() == null || paciente.getDni() <= 0) {
             throw new DatoInvalidoException("El DNI debe ser un numero positivo.");

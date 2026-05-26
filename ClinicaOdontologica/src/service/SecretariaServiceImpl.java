@@ -97,8 +97,14 @@ public class SecretariaServiceImpl implements IService<Secretaria> {
         if (secretaria.getNombre() == null || secretaria.getNombre().isEmpty()) {
             throw new DatoInvalidoException("El nombre no puede estar vacio.");
         }
+        if (!secretaria.getNombre().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El nombre no puede contener numeros.");
+        }
         if (secretaria.getApellido() == null || secretaria.getApellido().isEmpty()) {
             throw new DatoInvalidoException("El apellido no puede estar vacio.");
+        }
+        if (!secretaria.getApellido().matches("[A-Za-záéíóúÁÉÍÓÚñÑ ]+")) {
+            throw new DatoInvalidoException("El apellido no puede contener numeros.");
         }
         if (secretaria.getDni() == null || secretaria.getDni() <= 0) {
             throw new DatoInvalidoException("El DNI debe ser un numero positivo.");
