@@ -1,0 +1,713 @@
+<mxfile host="app.diagrams.net" agent="Claude" pages="4">
+
+  <!-- ════════════════════════════════════════════════════
+       PAGE 1 — ENTITY
+       ════════════════════════════════════════════════════ -->
+  <diagram name="1-Entity" id="entity">
+    <mxGraphModel dx="1522" dy="995" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titulo_e" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0B5394;" value="Capa Entity — Clínica Odontológica (Entrega 4)" vertex="1">
+          <mxGeometry height="50" width="800" x="500" y="10" as="geometry" />
+        </mxCell>
+
+        <!-- Persona (abstract) -->
+        <mxCell id="persona" parent="1" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;&lt;abstract&gt;&gt;&#xa;Persona" vertex="1">
+          <mxGeometry height="270" width="320" x="480" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="per_a" parent="persona" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="# nombre: String&#xa;# apellido: String&#xa;# dni: Integer" vertex="1">
+          <mxGeometry height="62" width="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="per_s" parent="persona" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="102" as="geometry" />
+        </mxCell>
+        <mxCell id="per_o" parent="persona" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ getNombre(): String&#xa;+ setNombre(nombre: String): void&#xa;+ getApellido(): String&#xa;+ setApellido(apellido: String): void&#xa;+ getDni(): Integer&#xa;+ setDni(dni: Integer): void&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="160" width="320" y="110" as="geometry" />
+        </mxCell>
+
+        <!-- Domicilio -->
+        <mxCell id="domicilio" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Domicilio" vertex="1">
+          <mxGeometry height="290" width="280" x="100" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="dom_a" parent="domicilio" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- calle: String&#xa;- numero: String&#xa;- localidad: String&#xa;- provincia: String" vertex="1">
+          <mxGeometry height="80" width="280" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="dom_s" parent="domicilio" style="line;strokeColor=#d79b00;" value="" vertex="1">
+          <mxGeometry height="8" width="280" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="dom_o" parent="domicilio" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Domicilio(calle, numero, localidad, provincia)&#xa;+ getCalle(): String&#xa;+ setCalle(calle: String): void&#xa;+ getNumero(): String&#xa;+ getLocalidad(): String&#xa;+ getProvincia(): String&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="174" width="280" y="116" as="geometry" />
+        </mxCell>
+
+        <!-- EstadoTurno (enum) -->
+        <mxCell id="estado" parent="1" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;&lt;enum&gt;&gt;&#xa;EstadoTurno" vertex="1">
+          <mxGeometry height="120" width="200" x="820" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="est_v" parent="estado" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="PENDIENTE&#xa;CONFIRMADO&#xa;CANCELADO&#xa;COMPLETADO" vertex="1">
+          <mxGeometry height="80" width="200" y="40" as="geometry" />
+        </mxCell>
+
+        <!-- Paciente -->
+        <mxCell id="paciente" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Paciente" vertex="1">
+          <mxGeometry height="390" width="350" x="80" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="pac_a" parent="paciente" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- contadorId: Long  {static}&#xa;- id: Long&#xa;- email: String&#xa;- domicilio: Domicilio&#xa;- obraSocial: Boolean&#xa;- historialPaciente: List&lt;Turno&gt;" vertex="1">
+          <mxGeometry height="110" width="350" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="pac_s" parent="paciente" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="pac_o" parent="paciente" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Paciente(nombre, apellido, dni, email, domicilio, obraSocial)&#xa;+ getId(): Long&#xa;+ getEmail(): String&#xa;+ setEmail(email: String): void&#xa;+ getDomicilio(): Domicilio&#xa;+ setDomicilio(dom: Domicilio): void&#xa;+ getObraSocial(): Boolean&#xa;+ setObraSocial(os: Boolean): void&#xa;+ getHistorialPaciente(): List&lt;Turno&gt;&#xa;+ agregarTurno(t: Turno): void&#xa;+ removerTurno(t: Turno): void&#xa;+ setContadorId(id: Long): void  {static}&#xa;+ compareTo(p: Paciente): int&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="244" width="350" y="146" as="geometry" />
+        </mxCell>
+
+        <!-- Odontologo (abstract) -->
+        <mxCell id="odontologo" parent="1" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;&lt;abstract&gt;&gt;&#xa;Odontologo" vertex="1">
+          <mxGeometry height="330" width="380" x="510" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="odo_a" parent="odontologo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- contadorId: Long  {static}&#xa;- id: Long&#xa;- matricula: String&#xa;- historialOdontologo: List&lt;Turno&gt;" vertex="1">
+          <mxGeometry height="80" width="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="odo_s" parent="odontologo" style="line;strokeColor=#6c8ebf;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="odo_o" parent="odontologo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;fontStyle=3;" value="# Odontologo(nombre, apellido, dni, matricula)&#xa;+ getId(): Long&#xa;+ getMatricula(): String&#xa;+ setMatricula(mat: String): void&#xa;+ getHistorialOdontologo(): List&lt;Turno&gt;&#xa;+ agregarTurno(t: Turno): void&#xa;+ removerTurno(t: Turno): void&#xa;+ setContadorId(id: Long): void  {static}&#xa;+ getEspecialidad(): String  {abstract}&#xa;+ getTarifaBase(): Double  {abstract}&#xa;+ puedeAtender(motivo: String): boolean  {abstract}&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="202" width="380" y="128" as="geometry" />
+        </mxCell>
+
+        <!-- Secretaria -->
+        <mxCell id="secretaria" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Secretaria" vertex="1">
+          <mxGeometry height="260" width="330" x="920" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="sec_a" parent="secretaria" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- contadorId: Long  {static}&#xa;- id: Long&#xa;- historialSecretaria: List&lt;Turno&gt;" vertex="1">
+          <mxGeometry height="62" width="330" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sec_s" parent="secretaria" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="330" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="sec_o" parent="secretaria" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Secretaria(nombre, apellido, dni)&#xa;+ getId(): Long&#xa;+ getHistorialSecretaria(): List&lt;Turno&gt;&#xa;+ agregarTurno(t: Turno): void&#xa;+ removerTurno(t: Turno): void&#xa;+ setContadorId(id: Long): void  {static}&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="162" width="330" y="98" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoGeneral -->
+        <mxCell id="odogral" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="OdontologoGeneral" vertex="1">
+          <mxGeometry height="170" width="340" x="80" y="980" as="geometry" />
+        </mxCell>
+        <mxCell id="odgr_a" parent="odogral" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- TARIFA_BASE: Double = 50000.0  {static}" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="odgr_s" parent="odogral" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="odgr_o" parent="odogral" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ OdontologoGeneral(nom, ape, dni, mat)&#xa;+ getEspecialidad(): String  // &quot;Odontología General&quot;&#xa;+ getTarifaBase(): Double  // 50.000&#xa;+ puedeAtender(motivo: String): boolean&#xa;   motivos: consulta, control, limpieza, caries, dolor" vertex="1">
+          <mxGeometry height="102" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- Ortodoncista -->
+        <mxCell id="ortodoncista" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Ortodoncista" vertex="1">
+          <mxGeometry height="170" width="340" x="480" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="ort_a" parent="ortodoncista" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- TARIFA_BASE: Double = 70000.0  {static}" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ort_s" parent="ortodoncista" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ort_o" parent="ortodoncista" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Ortodoncista(nom, ape, dni, mat)&#xa;+ getEspecialidad(): String  // &quot;Ortodoncia&quot;&#xa;+ getTarifaBase(): Double  // 70.000&#xa;+ puedeAtender(motivo: String): boolean&#xa;   motivos: ortodoncia, brackets, mordida, apiñamiento" vertex="1">
+          <mxGeometry height="102" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- Endodoncista -->
+        <mxCell id="endodoncista" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Endodoncista" vertex="1">
+          <mxGeometry height="170" width="340" x="900" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="end_a" parent="endodoncista" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- TARIFA_BASE: Double = 80000.0  {static}" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="end_s" parent="endodoncista" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="end_o" parent="endodoncista" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Endodoncista(nom, ape, dni, mat)&#xa;+ getEspecialidad(): String  // &quot;Endodoncia&quot;&#xa;+ getTarifaBase(): Double  // 80.000&#xa;+ puedeAtender(motivo: String): boolean&#xa;   motivos: endodoncia, conducto, pulpa, infección" vertex="1">
+          <mxGeometry height="102" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- Turno -->
+        <mxCell id="turno" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="Turno" vertex="1">
+          <mxGeometry height="420" width="360" x="1310" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="tur_a" parent="turno" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- contadorId: Long  {static}&#xa;- id: Long&#xa;- paciente: Paciente&#xa;- odontologo: Odontologo&#xa;- secretaria: Secretaria&#xa;- fecha: LocalDate&#xa;- hora: LocalTime&#xa;- motivo: String&#xa;- estado: EstadoTurno" vertex="1">
+          <mxGeometry height="168" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tur_s" parent="turno" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="tur_o" parent="turno" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ Turno(paciente, odontologo, secretaria, fecha, hora, motivo)&#xa;+ getId(): Long&#xa;+ getPaciente(): Paciente&#xa;+ getOdontologo(): Odontologo&#xa;+ getSecretaria(): Secretaria&#xa;+ getFecha(): LocalDate&#xa;+ getHora(): LocalTime&#xa;+ getMotivo(): String&#xa;+ getEstado(): EstadoTurno&#xa;+ setEstado(estado: EstadoTurno): void&#xa;+ setContadorId(id: Long): void  {static}&#xa;+ toString(): String" vertex="1">
+          <mxGeometry height="216" width="360" y="204" as="geometry" />
+        </mxCell>
+
+        <!-- FLECHAS ENTITY -->
+
+        <!-- Generalización: Paciente → Persona -->
+        <mxCell id="e_pac_per" edge="1" parent="1" source="pac_o" target="per_a" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Generalización: Odontologo → Persona -->
+        <mxCell id="e_odo_per" edge="1" parent="1" source="odo_a" target="per_o" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Generalización: Secretaria → Persona -->
+        <mxCell id="e_sec_per" edge="1" parent="1" source="sec_a" target="per_o" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Generalización: OdontologoGeneral → Odontologo -->
+        <mxCell id="e_odgr_odo" edge="1" parent="1" source="odgr_o" target="odo_o" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Generalización: Ortodoncista → Odontologo -->
+        <mxCell id="e_ort_odo" edge="1" parent="1" source="ort_o" target="odo_o" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Generalización: Endodoncista → Odontologo -->
+        <mxCell id="e_end_odo" edge="1" parent="1" source="end_o" target="odo_o" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Composición: Paciente → Domicilio -->
+        <mxCell id="e_pac_dom" edge="1" parent="1" source="paciente" target="domicilio" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#000000;" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Asociación: Turno → EstadoTurno -->
+        <mxCell id="e_tur_est" edge="1" parent="1" source="turno" target="estado" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agregación: Paciente historial → Turno -->
+        <mxCell id="e_pac_tur" edge="1" parent="1" source="paciente" target="turno" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;strokeColor=#000000;" value="historial *">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agregación: Odontologo historial → Turno -->
+        <mxCell id="e_odo_tur" edge="1" parent="1" source="odontologo" target="turno" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;strokeColor=#000000;" value="historial *">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Agregación: Secretaria historial → Turno -->
+        <mxCell id="e_sec_tur" edge="1" parent="1" source="secretaria" target="turno" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;strokeColor=#000000;" value="historial *">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ════════════════════════════════════════════════════
+       PAGE 2 — REPOSITORY
+       ════════════════════════════════════════════════════ -->
+  <diagram name="2-Repository" id="repository">
+    <mxGraphModel dx="1522" dy="995" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titulo_r" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0B5394;" value="Capa Repository — Clínica Odontológica (Entrega 4)" vertex="1">
+          <mxGeometry height="50" width="800" x="500" y="20" as="geometry" />
+        </mxCell>
+
+        <!-- IRepository (interface) -->
+        <mxCell id="irepo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;&lt;interface&gt;&gt;&#xa;IRepository&lt;T&gt;" vertex="1">
+          <mxGeometry height="180" width="320" x="740" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ir_o" parent="irepo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ guardar(entidad: T): void&#xa;+ buscarPorId(id: Long): T&#xa;+ listarTodos(): List&lt;T&gt;&#xa;+ actualizar(entidad: T): void&#xa;+ eliminar(id: Long): void" vertex="1">
+          <mxGeometry height="140" width="320" y="40" as="geometry" />
+        </mxCell>
+
+        <!-- PacienteRepository -->
+        <mxCell id="repopac" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="PacienteRepository" vertex="1">
+          <mxGeometry height="280" width="340" x="60" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="rp_a" parent="repopac" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- pacientes: Map&lt;Long, Paciente&gt;" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="rp_s" parent="repopac" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rp_o" parent="repopac" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PacienteRepository()&#xa;+ guardar(p: Paciente): void&#xa;+ buscarPorId(id: Long): Paciente&#xa;+ buscarPorDni(dni: Integer): Paciente&#xa;+ existeDni(dni: Integer): boolean&#xa;+ listarTodos(): List&lt;Paciente&gt;&#xa;+ actualizar(p: Paciente): void&#xa;+ eliminar(id: Long): void" vertex="1">
+          <mxGeometry height="212" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoRepository -->
+        <mxCell id="repoodo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="OdontologoRepository" vertex="1">
+          <mxGeometry height="280" width="360" x="430" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="ro_a" parent="repoodo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- odontologos: Map&lt;Long, Odontologo&gt;" vertex="1">
+          <mxGeometry height="32" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ro_s" parent="repoodo" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ro_o" parent="repoodo" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ OdontologoRepository()&#xa;+ guardar(o: Odontologo): void&#xa;+ buscarPorId(id: Long): Odontologo&#xa;+ buscarPorMatricula(mat: String): Odontologo&#xa;+ existeMatricula(mat: String): boolean&#xa;+ listarTodos(): List&lt;Odontologo&gt;&#xa;+ actualizar(o: Odontologo): void&#xa;+ eliminar(id: Long): void" vertex="1">
+          <mxGeometry height="212" width="360" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- SecretariaRepository -->
+        <mxCell id="reposec" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="SecretariaRepository" vertex="1">
+          <mxGeometry height="280" width="340" x="870" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="rs_a" parent="reposec" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- secretarias: Map&lt;Long, Secretaria&gt;" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="rs_s" parent="reposec" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rs_o" parent="reposec" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ SecretariaRepository()&#xa;+ guardar(s: Secretaria): void&#xa;+ buscarPorId(id: Long): Secretaria&#xa;+ buscarPorDni(dni: Integer): Secretaria&#xa;+ existeDni(dni: Integer): boolean&#xa;+ listarTodos(): List&lt;Secretaria&gt;&#xa;+ actualizar(s: Secretaria): void&#xa;+ eliminar(id: Long): void" vertex="1">
+          <mxGeometry height="212" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- TurnoRepository -->
+        <mxCell id="repoturn" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="TurnoRepository" vertex="1">
+          <mxGeometry height="360" width="380" x="1300" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="rt_a" parent="repoturn" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- turnos: Map&lt;Long, Turno&gt;" vertex="1">
+          <mxGeometry height="32" width="380" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="rt_s" parent="repoturn" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rt_o" parent="repoturn" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ TurnoRepository()&#xa;+ guardar(t: Turno): void&#xa;+ buscarPorId(id: Long): Turno&#xa;+ listarTodos(): List&lt;Turno&gt;&#xa;+ actualizar(t: Turno): void&#xa;+ eliminar(id: Long): void&#xa;+ existeConflictoHorario(idOdo: Long, fecha: LocalDate, hora: LocalTime): boolean&#xa;+ existeConflictoHorarioExcluyendo(idTurno: Long, idOdo: Long, fecha: LocalDate, hora: LocalTime): boolean&#xa;+ buscarPorPaciente(idPac: Long): List&lt;Turno&gt;&#xa;+ buscarPorOdontologo(idOdo: Long): List&lt;Turno&gt;&#xa;+ buscarPorSecretaria(idSec: Long): List&lt;Turno&gt;&#xa;+ buscarEntreFechas(desde: LocalDate, hasta: LocalDate): List&lt;Turno&gt;" vertex="1">
+          <mxGeometry height="292" width="380" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- implements arrows -->
+        <mxCell id="r_rp_ir" edge="1" parent="1" source="rp_o" target="ir_o" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_ro_ir" edge="1" parent="1" source="repoodo" target="irepo" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_rs_ir" edge="1" parent="1" source="reposec" target="irepo" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_rt_ir" edge="1" parent="1" source="rt_o" target="ir_o" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ════════════════════════════════════════════════════
+       PAGE 3 — SERVICE + EXCEPTION
+       ════════════════════════════════════════════════════ -->
+  <diagram name="3-Service_Exception" id="service">
+    <mxGraphModel dx="1522" dy="995" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titulo_s" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0B5394;" value="Capas Service y Exception — Clínica Odontológica (Entrega 4)" vertex="1">
+          <mxGeometry height="50" width="900" x="450" y="10" as="geometry" />
+        </mxCell>
+
+        <!-- ── EXCEPTION ── -->
+        <mxCell id="lbl_exc" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#7d4609;" value="exception" vertex="1">
+          <mxGeometry height="30" width="200" x="1200" y="70" as="geometry" />
+        </mxCell>
+
+        <!-- ClinicaException -->
+        <mxCell id="clinicaex" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="ClinicaException" vertex="1">
+          <mxGeometry height="80" width="280" x="1430" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="cex_a" parent="clinicaex" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="extends RuntimeException" vertex="1">
+          <mxGeometry height="52" width="280" y="28" as="geometry" />
+        </mxCell>
+
+        <!-- DatoInvalidoException -->
+        <mxCell id="datoinvex" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="DatoInvalidoException" vertex="1">
+          <mxGeometry height="60" width="260" x="1210" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="dinv_a" parent="datoinvex" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="extends ClinicaException" vertex="1">
+          <mxGeometry height="32" width="260" y="28" as="geometry" />
+        </mxCell>
+
+        <!-- PacienteNoEncontradoException -->
+        <mxCell id="pacnfex" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="PacienteNoEncontradoException" vertex="1">
+          <mxGeometry height="60" width="300" x="1200" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="pnf_a" parent="pacnfex" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="extends ClinicaException" vertex="1">
+          <mxGeometry height="32" width="300" y="28" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoNoEncontradoException -->
+        <mxCell id="odonf" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="OdontologoNoEncontradoException" vertex="1">
+          <mxGeometry height="60" width="310" x="1530" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="onf_a" parent="odonf" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="extends ClinicaException" vertex="1">
+          <mxGeometry height="32" width="310" y="28" as="geometry" />
+        </mxCell>
+
+        <!-- TurnoYaReservadoException -->
+        <mxCell id="turnoResEx" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#ffe6cc;strokeColor=#d79b00;" value="TurnoYaReservadoException" vertex="1">
+          <mxGeometry height="60" width="290" x="1540" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="tyr_a" parent="turnoResEx" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="extends ClinicaException" vertex="1">
+          <mxGeometry height="32" width="290" y="28" as="geometry" />
+        </mxCell>
+
+        <!-- exception arrows -->
+        <mxCell id="ex1" edge="1" parent="1" source="datoinvex" target="clinicaex" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ex2" edge="1" parent="1" source="pacnfex" target="clinicaex" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ex3" edge="1" parent="1" source="odonf" target="clinicaex" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ex4" edge="1" parent="1" source="turnoResEx" target="clinicaex" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;" value="extends">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── SERVICE ── -->
+        <mxCell id="lbl_svc" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#4a1986;" value="service" vertex="1">
+          <mxGeometry height="30" width="200" x="20" y="70" as="geometry" />
+        </mxCell>
+
+        <!-- IService (interface) -->
+        <mxCell id="iservice" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;&lt;interface&gt;&gt;&#xa;IService&lt;T&gt;" vertex="1">
+          <mxGeometry height="180" width="300" x="680" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="is_o" parent="iservice" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ registrar(entidad: T): void&#xa;+ buscarPorId(id: Long): T&#xa;+ listarTodos(): List&lt;T&gt;&#xa;+ actualizar(entidad: T): void&#xa;+ eliminar(id: Long): void" vertex="1">
+          <mxGeometry height="140" width="300" y="40" as="geometry" />
+        </mxCell>
+
+        <!-- PacienteServiceImpl -->
+        <mxCell id="pacsvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="PacienteServiceImpl" vertex="1">
+          <mxGeometry height="320" width="350" x="30" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_a" parent="pacsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- pacienteRepository: PacienteRepository" vertex="1">
+          <mxGeometry height="32" width="350" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_s" parent="pacsvc" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ps_o" parent="pacsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PacienteServiceImpl(repo: PacienteRepository)&#xa;+ registrar(p: Paciente): void&#xa;+ buscarPorId(id: Long): Paciente&#xa;+ buscarPorDni(dni: Integer): Paciente&#xa;+ listarTodos(): List&lt;Paciente&gt;&#xa;+ actualizar(p: Paciente): void&#xa;+ eliminar(id: Long): void&#xa;+ registrarPaciente(nombre, apellido, dni, email, dom, obraSocial): void&#xa;+ actualizarPaciente(id, nombre, apellido, dni, email, dom, obraSocial): void" vertex="1">
+          <mxGeometry height="252" width="350" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoServiceImpl -->
+        <mxCell id="odosvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="OdontologoServiceImpl" vertex="1">
+          <mxGeometry height="300" width="360" x="30" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="os_a" parent="odosvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- odontologoRepository: OdontologoRepository" vertex="1">
+          <mxGeometry height="32" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="os_s" parent="odosvc" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="os_o" parent="odosvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ OdontologoServiceImpl(repo: OdontologoRepository)&#xa;+ registrar(o: Odontologo): void&#xa;+ buscarPorId(id: Long): Odontologo&#xa;+ buscarPorMatricula(mat: String): Odontologo&#xa;+ listarTodos(): List&lt;Odontologo&gt;&#xa;+ actualizar(o: Odontologo): void&#xa;+ eliminar(id: Long): void&#xa;+ actualizarOdontologo(id, nombre, apellido, dni, matricula): void" vertex="1">
+          <mxGeometry height="232" width="360" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- SecretariaServiceImpl -->
+        <mxCell id="secsvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="SecretariaServiceImpl" vertex="1">
+          <mxGeometry height="280" width="360" x="430" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="ss_a" parent="secsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- secretariaRepository: SecretariaRepository" vertex="1">
+          <mxGeometry height="32" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ss_s" parent="secsvc" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ss_o" parent="secsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ SecretariaServiceImpl(repo: SecretariaRepository)&#xa;+ registrar(s: Secretaria): void&#xa;+ buscarPorId(id: Long): Secretaria&#xa;+ buscarPorDni(dni: Integer): Secretaria&#xa;+ listarTodos(): List&lt;Secretaria&gt;&#xa;+ actualizar(s: Secretaria): void&#xa;+ eliminar(id: Long): void&#xa;+ registrarSecretaria(nombre, apellido, dni): void&#xa;+ actualizarSecretaria(id, nombre, apellido, dni): void" vertex="1">
+          <mxGeometry height="212" width="360" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- TurnoServiceImpl -->
+        <mxCell id="turnsvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="TurnoServiceImpl" vertex="1">
+          <mxGeometry height="380" width="400" x="430" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ts_a" parent="turnsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- turnoRepository: TurnoRepository&#xa;- pacienteRepository: PacienteRepository&#xa;- odontologoRepository: OdontologoRepository&#xa;- secretariaRepository: SecretariaRepository&#xa;- facturador: Facturador" vertex="1">
+          <mxGeometry height="88" width="400" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="ts_s" parent="turnsvc" style="line;strokeColor=#82b366;" value="" vertex="1">
+          <mxGeometry height="8" width="400" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="ts_o" parent="turnsvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ TurnoServiceImpl(turnoRepo, pacRepo, odoRepo, secRepo, facturador)&#xa;+ registrar(t: Turno): void&#xa;+ registrarTurno(idPac, idOdo, idSec, fecha, hora, motivo): void&#xa;+ buscarPorId(id: Long): Turno&#xa;+ listarTodos(): List&lt;Turno&gt;&#xa;+ actualizar(t: Turno): void&#xa;+ actualizarTurno(id, idOdo, idSec, fecha, hora, motivo, estado): void&#xa;+ eliminar(id: Long): void&#xa;+ filtrarPorPaciente(idPac: Long): List&lt;Turno&gt;&#xa;+ filtrarPorOdontologo(idOdo: Long): List&lt;Turno&gt;&#xa;+ filtrarPorSecretaria(idSec: Long): List&lt;Turno&gt;&#xa;+ filtrarPorFechas(desde: LocalDate, hasta: LocalDate): List&lt;Turno&gt;&#xa;+ calcularMonto(idTurno: Long): double" vertex="1">
+          <mxGeometry height="256" width="400" y="124" as="geometry" />
+        </mxCell>
+
+        <!-- Facturador -->
+        <mxCell id="facturador" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="Facturador" vertex="1">
+          <mxGeometry height="130" width="300" x="860" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="fac_a" parent="facturador" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- COPAGO_OBRA_SOCIAL: double = 10000.0  {static}" vertex="1">
+          <mxGeometry height="32" width="300" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="fac_s" parent="facturador" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="8" width="300" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fac_o" parent="facturador" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ calcularMonto(turno: Turno): double&#xa;  si obraSocial → copago; si no → tarifaBase" vertex="1">
+          <mxGeometry height="62" width="300" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- implements arrows -->
+        <mxCell id="s1" edge="1" parent="1" source="ps_o" target="is_o" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" edge="1" parent="1" source="ts_o" target="is_o" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" edge="1" parent="1" source="odosvc" target="iservice" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" edge="1" parent="1" source="secsvc" target="iservice" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;" value="implements">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <!-- TurnoServiceImpl usa Facturador -->
+        <mxCell id="s5" edge="1" parent="1" source="turnsvc" target="facturador" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ════════════════════════════════════════════════════
+       PAGE 4 — CONTROLLER + VIEW + PERSISTENCE
+       ════════════════════════════════════════════════════ -->
+  <diagram name="4-Controller_View_Persistence" id="ctrl_view">
+    <mxGraphModel dx="1522" dy="995" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titulo_cv" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#0B5394;" value="Capas Controller, View y Persistence — Clínica Odontológica (Entrega 4)" vertex="1">
+          <mxGeometry height="50" width="1000" x="440" y="10" as="geometry" />
+        </mxCell>
+
+        <!-- ── CONTROLLER ── -->
+        <mxCell id="lbl_ctrl" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#7d6000;" value="controller" vertex="1">
+          <mxGeometry height="30" width="200" x="20" y="65" as="geometry" />
+        </mxCell>
+
+        <!-- PacienteController -->
+        <mxCell id="pacctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="PacienteController" vertex="1">
+          <mxGeometry height="290" width="330" x="20" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="pc_a" parent="pacctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- pacienteService: PacienteServiceImpl" vertex="1">
+          <mxGeometry height="32" width="330" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="pc_s" parent="pacctrl" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="8" width="330" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="pc_o" parent="pacctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PacienteController(service: PacienteServiceImpl)&#xa;+ registrarPaciente(nombre, apellido, dni, email, calle, numero, localidad, provincia, obraSocial): void&#xa;+ listarPacientes(): List&lt;Paciente&gt;&#xa;+ buscarPacientePorId(id: Long): Paciente&#xa;+ buscarPacientePorDni(dni: Integer): Paciente&#xa;+ actualizarPaciente(id, nombre, apellido, dni, email, calle, numero, localidad, provincia, obraSocial): void&#xa;+ eliminarPaciente(id: Long): void" vertex="1">
+          <mxGeometry height="222" width="330" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoController -->
+        <mxCell id="odoctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="OdontologoController" vertex="1">
+          <mxGeometry height="250" width="340" x="380" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="oc_a" parent="odoctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- odontologoService: OdontologoServiceImpl" vertex="1">
+          <mxGeometry height="32" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="oc_s" parent="odoctrl" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="oc_o" parent="odoctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ OdontologoController(service: OdontologoServiceImpl)&#xa;+ registrarOdontologo(o: Odontologo): void&#xa;+ listarOdontologos(): List&lt;Odontologo&gt;&#xa;+ buscarOdontologoPorId(id: Long): Odontologo&#xa;+ buscarOdontologoPorMatricula(mat: String): Odontologo&#xa;+ actualizarOdontologo(id, nombre, apellido, dni, matricula): void&#xa;+ eliminarOdontologo(id: Long): void" vertex="1">
+          <mxGeometry height="182" width="340" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- SecretariaController -->
+        <mxCell id="secctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="SecretariaController" vertex="1">
+          <mxGeometry height="250" width="330" x="750" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="sc_a" parent="secctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- secretariaService: SecretariaServiceImpl" vertex="1">
+          <mxGeometry height="32" width="330" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sc_s" parent="secctrl" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="8" width="330" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sc_o" parent="secctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ SecretariaController(service: SecretariaServiceImpl)&#xa;+ registrarSecretaria(nombre, apellido, dni): void&#xa;+ listarSecretarias(): List&lt;Secretaria&gt;&#xa;+ buscarSecretariaPorId(id: Long): Secretaria&#xa;+ buscarSecretariaPorDni(dni: Integer): Secretaria&#xa;+ actualizarSecretaria(id, nombre, apellido, dni): void&#xa;+ eliminarSecretaria(id: Long): void" vertex="1">
+          <mxGeometry height="182" width="330" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- TurnoController -->
+        <mxCell id="turnctrl" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="TurnoController" vertex="1">
+          <mxGeometry height="290" width="360" x="1110" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tc_a" parent="turnctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- turnoService: TurnoServiceImpl" vertex="1">
+          <mxGeometry height="32" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tc_s" parent="turnctrl" style="line;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tc_o" parent="turnctrl" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ TurnoController(service: TurnoServiceImpl)&#xa;+ registrarTurno(idPac, idOdo, idSec, fecha, hora, motivo): void&#xa;+ listarTurnos(): List&lt;Turno&gt;&#xa;+ buscarTurnoPorId(id: Long): Turno&#xa;+ actualizarTurno(id, idOdo, idSec, fecha, hora, motivo, estado): void&#xa;+ eliminarTurno(id: Long): void&#xa;+ filtrarPorPaciente(idPac: Long): List&lt;Turno&gt;&#xa;+ filtrarPorOdontologo(idOdo: Long): List&lt;Turno&gt;&#xa;+ filtrarPorSecretaria(idSec: Long): List&lt;Turno&gt;&#xa;+ filtrarPorFechas(desde: LocalDate, hasta: LocalDate): List&lt;Turno&gt;&#xa;+ calcularMonto(idTurno: Long): double" vertex="1">
+          <mxGeometry height="222" width="360" y="68" as="geometry" />
+        </mxCell>
+
+        <!-- ── PERSISTENCE ── -->
+        <mxCell id="lbl_pers" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#333333;" value="persistence" vertex="1">
+          <mxGeometry height="30" width="200" x="1500" y="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="perssvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f5f5f5;strokeColor=#666666;" value="PersistenciaServicio" vertex="1">
+          <mxGeometry height="350" width="380" x="1500" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="per_a" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- PACIENTES_FILE: String  {static final}&#xa;- ODONTOLOGOS_FILE: String  {static final}&#xa;- SECRETARIAS_FILE: String  {static final}&#xa;- TURNOS_FILE: String  {static final}" vertex="1">
+          <mxGeometry height="80" width="380" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="per_s" parent="perssvc" style="line;strokeColor=#666666;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="per_o" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PersistenciaServicio()&#xa;+ guardar(pacRepo: PacienteRepository, odoRepo: OdontologoRepository, secRepo: SecretariaRepository, turnRepo: TurnoRepository): void&#xa;+ cargarPacientes(): PacienteRepository&#xa;+ cargarOdontologos(): OdontologoRepository&#xa;+ cargarSecretarias(): SecretariaRepository&#xa;+ cargarTurnos(): TurnoRepository&#xa;- serializar(objeto: Object, archivo: String): void&#xa;- deserializar(archivo: String): Object" vertex="1">
+          <mxGeometry height="234" width="380" y="116" as="geometry" />
+        </mxCell>
+
+        <!-- ── VIEW ── -->
+        <mxCell id="lbl_view" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#6b0000;" value="view" vertex="1">
+          <mxGeometry height="30" width="200" x="20" y="470" as="geometry" />
+        </mxCell>
+
+        <!-- MainFrame -->
+        <mxCell id="mainframe" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" value="MainFrame  (extends JFrame)" vertex="1">
+          <mxGeometry height="330" width="380" x="20" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_a" parent="mainframe" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- tabs: JTabbedPane&#xa;- panelTurnos: TurnoPanel&#xa;- persistencia: PersistenciaServicio&#xa;- pacienteRepository: PacienteRepository&#xa;- odontologoRepository: OdontologoRepository&#xa;- secretariaRepository: SecretariaRepository&#xa;- turnoRepository: TurnoRepository" vertex="1">
+          <mxGeometry height="122" width="380" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_s" parent="mainframe" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mf_o" parent="mainframe" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ MainFrame(persistencia, pacCtrl, odoCtrl, secCtrl, turnCtrl, pacRepo, odoRepo, secRepo, turnRepo)&#xa;WindowListener.windowClosing() → confirma guardar al cerrar&#xa;ChangeListener → llama actualizarCombos() al cambiar a Turnos&#xa;+ dispose(): void" vertex="1">
+          <mxGeometry height="172" width="380" y="158" as="geometry" />
+        </mxCell>
+
+        <!-- PacientePanel -->
+        <mxCell id="pacpanel" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" value="PacientePanel  (extends JPanel)" vertex="1">
+          <mxGeometry height="340" width="360" x="430" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="pp_a" parent="pacpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- controller: PacienteController&#xa;- tabla: JTable&#xa;- modeloTabla: DefaultTableModel&#xa;- idSeleccionado: Long&#xa;- txtNombre, txtApellido, txtDni: JTextField&#xa;- txtEmail, txtCalle, txtNumero: JTextField&#xa;- txtLocalidad, txtProvincia: JTextField&#xa;- cboObraSocial: JComboBox&lt;String&gt;&#xa;- txtBuscarDni: JTextField" vertex="1">
+          <mxGeometry height="158" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="pp_s" parent="pacpanel" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="186" as="geometry" />
+        </mxCell>
+        <mxCell id="pp_o" parent="pacpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PacientePanel(controller: PacienteController)&#xa;MouseListener.mouseClicked() → cargarFilaSeleccionada()&#xa;ActionListener → Nuevo / Guardar / Eliminar / Buscar&#xa;+ cargarTabla(): void&#xa;+ limpiarFormulario(): void&#xa;+ guardar(): void&#xa;+ eliminar(): void&#xa;+ buscarPorDni(): void" vertex="1">
+          <mxGeometry height="146" width="360" y="194" as="geometry" />
+        </mxCell>
+
+        <!-- OdontologoPanel -->
+        <mxCell id="odopanel" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" value="OdontologoPanel  (extends JPanel)" vertex="1">
+          <mxGeometry height="320" width="360" x="820" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="op_a" parent="odopanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- controller: OdontologoController&#xa;- tabla: JTable&#xa;- modeloTabla: DefaultTableModel&#xa;- idSeleccionado: Long&#xa;- txtNombre, txtApellido, txtDni: JTextField&#xa;- txtMatricula: JTextField&#xa;- cboEspecialidad: JComboBox&lt;String&gt;  (General/Ortodoncista/Endodoncista)&#xa;- txtBuscarMatricula: JTextField" vertex="1">
+          <mxGeometry height="142" width="360" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="op_s" parent="odopanel" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="8" width="360" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="op_o" parent="odopanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ OdontologoPanel(controller: OdontologoController)&#xa;MouseListener.mouseClicked() → cargarFilaSeleccionada()&#xa;ActionListener → Nuevo / Guardar / Eliminar / Buscar&#xa;+ cargarTabla(): void&#xa;+ limpiarFormulario(): void&#xa;+ guardar(): void  // crea OdontologoGeneral / Ortodoncista / Endodoncista&#xa;+ eliminar(): void&#xa;+ buscarPorMatricula(): void" vertex="1">
+          <mxGeometry height="142" width="360" y="178" as="geometry" />
+        </mxCell>
+
+        <!-- SecretariaPanel -->
+        <mxCell id="secpanel" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" value="SecretariaPanel  (extends JPanel)" vertex="1">
+          <mxGeometry height="280" width="340" x="1210" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="sp_a" parent="secpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- controller: SecretariaController&#xa;- tabla: JTable&#xa;- modeloTabla: DefaultTableModel&#xa;- idSeleccionado: Long&#xa;- txtNombre, txtApellido: JTextField&#xa;- txtDni, txtBuscarDni: JTextField" vertex="1">
+          <mxGeometry height="110" width="340" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="sp_s" parent="secpanel" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="138" as="geometry" />
+        </mxCell>
+        <mxCell id="sp_o" parent="secpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ SecretariaPanel(controller: SecretariaController)&#xa;MouseListener.mouseClicked() → cargarFilaSeleccionada()&#xa;ActionListener → Nuevo / Guardar / Eliminar / Buscar&#xa;+ cargarTabla(): void&#xa;+ limpiarFormulario(): void&#xa;+ guardar(): void&#xa;+ eliminar(): void&#xa;+ buscarPorDni(): void" vertex="1">
+          <mxGeometry height="134" width="340" y="146" as="geometry" />
+        </mxCell>
+
+        <!-- TurnoPanel -->
+        <mxCell id="turnpanel" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f8cecc;strokeColor=#b85450;" value="TurnoPanel  (extends JPanel)" vertex="1">
+          <mxGeometry height="400" width="400" x="1580" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="tp_a" parent="turnpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- controller: TurnoController&#xa;- tabla: JTable + modeloTabla: DefaultTableModel&#xa;- idSeleccionado: Long&#xa;- cboPaciente, cboOdontologo: JComboBox&lt;String&gt;&#xa;- cboSecretaria, cboEstado: JComboBox&lt;String&gt;&#xa;- txtFecha, txtHora, txtMotivo: JTextField&#xa;- listaPacientes: List&lt;Paciente&gt;&#xa;- listaOdontologos: List&lt;Odontologo&gt;&#xa;- listaSecretarias: List&lt;Secretaria&gt;" vertex="1">
+          <mxGeometry height="162" width="400" y="28" as="geometry" />
+        </mxCell>
+        <mxCell id="tp_s" parent="turnpanel" style="line;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="8" width="400" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="tp_o" parent="turnpanel" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ TurnoPanel(turnCtrl, pacCtrl, odoCtrl, secCtrl)&#xa;MouseListener.mouseClicked() → cargarFilaSeleccionada()&#xa;ActionListener → Nuevo / Guardar / Eliminar / Calcular Monto&#xa;+ actualizarCombos(): void  // llamado por MainFrame ChangeListener&#xa;+ cargarTabla(): void&#xa;+ limpiarFormulario(): void&#xa;+ guardar(): void&#xa;+ eliminar(): void&#xa;+ calcularMonto(): void&#xa;+ filtrarPorPaciente(): void&#xa;+ filtrarPorOdontologo(): void&#xa;+ filtrarPorSecretaria(): void&#xa;+ filtrarPorFechas(): void&#xa;+ verTodos(): void" vertex="1">
+          <mxGeometry height="202" width="400" y="198" as="geometry" />
+        </mxCell>
+
+        <!-- ── FLECHAS CONTROLLER → SERVICE (dependencia) ── -->
+        <mxCell id="cv1" edge="1" parent="1" source="pacctrl" target="pacsvc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv2" edge="1" parent="1" source="odoctrl" target="odosvc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv3" edge="1" parent="1" source="secctrl" target="secsvc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv4" edge="1" parent="1" source="turnctrl" target="turnsvc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── FLECHAS VIEW → CONTROLLER (dependencia) ── -->
+        <mxCell id="cv5" edge="1" parent="1" source="pacpanel" target="pacctrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv6" edge="1" parent="1" source="odopanel" target="odoctrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv7" edge="1" parent="1" source="secpanel" target="secctrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv8" edge="1" parent="1" source="turnpanel" target="turnctrl" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ── COMPOSICIÓN MainFrame → Panels ── -->
+        <mxCell id="cv9" edge="1" parent="1" source="mainframe" target="pacpanel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#000000;" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv10" edge="1" parent="1" source="mainframe" target="odopanel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#000000;" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv11" edge="1" parent="1" source="mainframe" target="secpanel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#000000;" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cv12" edge="1" parent="1" source="mainframe" target="turnpanel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#000000;" value="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- MainFrame usa PersistenciaServicio -->
+        <mxCell id="cv13" edge="1" parent="1" source="mainframe" target="perssvc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#000000;dashed=1;" value="usa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Placeholders para referencias cruzadas -->
+        <mxCell id="ref_pacsvc" parent="1" style="shape=mxgraph.uml.actor;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" value="ver página 3&#xa;PacienteServiceImpl" vertex="1">
+          <mxGeometry height="60" width="160" x="20" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ref_odosvc" parent="1" style="shape=mxgraph.uml.actor;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" value="ver página 3&#xa;OdontologoServiceImpl" vertex="1">
+          <mxGeometry height="60" width="180" x="380" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ref_secsvc" parent="1" style="shape=mxgraph.uml.actor;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" value="ver página 3&#xa;SecretariaServiceImpl" vertex="1">
+          <mxGeometry height="60" width="180" x="750" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="ref_turnsvc" parent="1" style="shape=mxgraph.uml.actor;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" value="ver página 3&#xa;TurnoServiceImpl" vertex="1">
+          <mxGeometry height="60" width="170" x="1110" y="440" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>
