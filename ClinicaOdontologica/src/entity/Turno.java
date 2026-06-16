@@ -1,11 +1,18 @@
 package entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Turno {
+public class Turno implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private static Long contadorId = 0L;
+
+    public static void setContadorId(Long id) {
+        contadorId = id;
+    }
 
     private Long id;
     private Paciente paciente;

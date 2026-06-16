@@ -2,6 +2,8 @@ package entity;
 
 public class OdontologoGeneral extends Odontologo {
 
+    private static final long serialVersionUID = 1L;
+
     private static final Double TARIFA_BASE = 50000.0;
 
     public OdontologoGeneral(String nombre, String apellido, Integer dni, String matricula) {

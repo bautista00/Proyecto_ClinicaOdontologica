@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Secretaria extends Persona {
 
+    private static final long serialVersionUID = 1L;
+
     private static Long contadorId = 0L;
 
     private List<Turno> historialSecretaria;

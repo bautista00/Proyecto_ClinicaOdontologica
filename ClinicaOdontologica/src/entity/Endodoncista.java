@@ -2,6 +2,8 @@ package entity;
 
 public class Endodoncista extends Odontologo {
 
+    private static final long serialVersionUID = 1L;
+
     private static final Double TARIFA_BASE = 80000.0;
 
     public Endodoncista(String nombre, String apellido, Integer dni, String matricula) {

@@ -2,6 +2,8 @@ package entity;
 
 public class Ortodoncista extends Odontologo {
 
+    private static final long serialVersionUID = 1L;
+
     private static final Double TARIFA_BASE = 70000.0;
 
     public Ortodoncista(String nombre, String apellido, Integer dni, String matricula) {

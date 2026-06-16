@@ -5,7 +5,13 @@ import java.util.List;
 
 public abstract class Odontologo extends Persona {
 
+    private static final long serialVersionUID = 1L;
+
     private static Long contadorId = 0L;
+
+    public static void setContadorId(Long id) {
+        contadorId = id;
+    }
 
     private String matricula;
     private List<Turno> historialOdontologo;

@@ -6,7 +6,13 @@ import java.util.List;
 
 public class Paciente extends Persona implements Comparable<Paciente> {
 
+    private static final long serialVersionUID = 1L;
+
     private static Long contadorId = 0L;
+
+    public static void setContadorId(Long id) {
+        contadorId = id;
+    }
 
     private String email;
     private LocalDate fechaAlta;

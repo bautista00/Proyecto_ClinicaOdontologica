@@ -1,8 +1,8 @@
-import controller.MenuController;
 import controller.OdontologoController;
 import controller.PacienteController;
 import controller.SecretariaController;
 import controller.TurnoController;
+import persistence.PersistenciaServicio;
 import repository.OdontologoRepository;
 import repository.PacienteRepository;
 import repository.SecretariaRepository;
@@ -12,57 +12,51 @@ import service.OdontologoServiceImpl;
 import service.PacienteServiceImpl;
 import service.SecretariaServiceImpl;
 import service.TurnoServiceImpl;
-import view.VistaMenu;
-import view.VistaOdontologo;
-import view.VistaPaciente;
-import view.VistaSecretaria;
-import view.VistaTurno;
+import view.MainFrame;
+
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
 
-        PacienteRepository pacienteRepository = new PacienteRepository();
-        OdontologoRepository odontologoRepository = new OdontologoRepository();
-        SecretariaRepository secretariaRepository = new SecretariaRepository();
-        TurnoRepository turnoRepository = new TurnoRepository();
+            // Cargar datos persistidos (o crear repositorios vacíos en la primera ejecución)
+            PersistenciaServicio persistencia = new PersistenciaServicio();
 
-        Facturador facturador = new Facturador();
+            PacienteRepository   pacienteRepository   = persistencia.cargarPacientes();
+            OdontologoRepository odontologoRepository = persistencia.cargarOdontologos();
+            SecretariaRepository secretariaRepository = persistencia.cargarSecretarias();
+            TurnoRepository      turnoRepository      = persistencia.cargarTurnos();
 
-        PacienteServiceImpl pacienteService = new PacienteServiceImpl(pacienteRepository);
-        OdontologoServiceImpl odontologoService = new OdontologoServiceImpl(odontologoRepository);
-        SecretariaServiceImpl secretariaService = new SecretariaServiceImpl(secretariaRepository);
-        TurnoServiceImpl turnoService = new TurnoServiceImpl(
-                turnoRepository,
-                pacienteRepository,
-                odontologoRepository,
-                secretariaRepository,
-                facturador
-        );
+            // Servicios
+            Facturador facturador = new Facturador();
 
-        PacienteController pacienteController = new PacienteController(pacienteService);
-        OdontologoController odontologoController = new OdontologoController(odontologoService);
-        SecretariaController secretariaController = new SecretariaController(secretariaService);
-        TurnoController turnoController = new TurnoController(turnoService);
+            PacienteServiceImpl  pacienteService  = new PacienteServiceImpl(pacienteRepository);
+            OdontologoServiceImpl odontologoService = new OdontologoServiceImpl(odontologoRepository);
+            SecretariaServiceImpl secretariaService = new SecretariaServiceImpl(secretariaRepository);
+            TurnoServiceImpl turnoService = new TurnoServiceImpl(
+                    turnoRepository, pacienteRepository, odontologoRepository, secretariaRepository, facturador);
 
-        VistaMenu vistaMenu = new VistaMenu();
-        VistaPaciente vistaPaciente = new VistaPaciente();
-        VistaOdontologo vistaOdontologo = new VistaOdontologo();
-        VistaSecretaria vistaSecretaria = new VistaSecretaria();
-        VistaTurno vistaTurno = new VistaTurno();
+            // Controllers
+            PacienteController   pacienteController   = new PacienteController(pacienteService);
+            OdontologoController odontologoController = new OdontologoController(odontologoService);
+            SecretariaController secretariaController = new SecretariaController(secretariaService);
+            TurnoController      turnoController      = new TurnoController(turnoService);
 
-        MenuController menuController = new MenuController(
-                vistaMenu,
-                vistaPaciente,
-                vistaOdontologo,
-                vistaSecretaria,
-                vistaTurno,
-                pacienteController,
-                odontologoController,
-                secretariaController,
-                turnoController
-        );
-
-        menuController.iniciar();
+            // Ventana principal
+            MainFrame frame = new MainFrame(
+                    persistencia,
+                    pacienteController,
+                    odontologoController,
+                    secretariaController,
+                    turnoController,
+                    pacienteRepository,
+                    odontologoRepository,
+                    secretariaRepository,
+                    turnoRepository
+            );
+            frame.setVisible(true);
+        });
     }
 }
