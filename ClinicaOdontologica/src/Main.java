@@ -27,7 +27,8 @@ public class Main {
             PacienteRepository   pacienteRepository   = persistencia.cargarPacientes();
             OdontologoRepository odontologoRepository = persistencia.cargarOdontologos();
             SecretariaRepository secretariaRepository = persistencia.cargarSecretarias();
-            TurnoRepository      turnoRepository      = persistencia.cargarTurnos();
+            TurnoRepository      turnoRepository      = persistencia.cargarTurnos(
+                    pacienteRepository, odontologoRepository, secretariaRepository);
 
             // Servicios
             Facturador facturador = new Facturador();

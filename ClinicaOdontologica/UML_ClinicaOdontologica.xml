@@ -558,16 +558,16 @@
         </mxCell>
 
         <mxCell id="perssvc" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;horizontalStackLayout=0;collapsible=0;marginBottom=0;fillColor=#f5f5f5;strokeColor=#666666;" value="PersistenciaServicio" vertex="1">
-          <mxGeometry height="350" width="380" x="1500" y="100" as="geometry" />
+          <mxGeometry height="400" width="420" x="1500" y="100" as="geometry" />
         </mxCell>
-        <mxCell id="per_a" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- PACIENTES_FILE: String  {static final}&#xa;- ODONTOLOGOS_FILE: String  {static final}&#xa;- SECRETARIAS_FILE: String  {static final}&#xa;- TURNOS_FILE: String  {static final}" vertex="1">
-          <mxGeometry height="80" width="380" y="28" as="geometry" />
+        <mxCell id="per_a" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="- DIR: String = &quot;datos/&quot;  {static final}&#xa;- SEP: String = &quot;;&quot;  {static final}&#xa;- PACIENTES_FILE: String = DIR+&quot;pacientes.txt&quot;  {static final}&#xa;- ODONTOLOGOS_FILE: String = DIR+&quot;odontologos.txt&quot;  {static final}&#xa;- SECRETARIAS_FILE: String = DIR+&quot;secretarias.txt&quot;  {static final}&#xa;- TURNOS_FILE: String = DIR+&quot;turnos.txt&quot;  {static final}" vertex="1">
+          <mxGeometry height="110" width="420" y="28" as="geometry" />
         </mxCell>
         <mxCell id="per_s" parent="perssvc" style="line;strokeColor=#666666;" value="" vertex="1">
-          <mxGeometry height="8" width="380" y="108" as="geometry" />
+          <mxGeometry height="8" width="420" y="138" as="geometry" />
         </mxCell>
-        <mxCell id="per_o" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ PersistenciaServicio()&#xa;+ guardar(pacRepo: PacienteRepository, odoRepo: OdontologoRepository, secRepo: SecretariaRepository, turnRepo: TurnoRepository): void&#xa;+ cargarPacientes(): PacienteRepository&#xa;+ cargarOdontologos(): OdontologoRepository&#xa;+ cargarSecretarias(): SecretariaRepository&#xa;+ cargarTurnos(): TurnoRepository&#xa;- serializar(objeto: Object, archivo: String): void&#xa;- deserializar(archivo: String): Object" vertex="1">
-          <mxGeometry height="234" width="380" y="116" as="geometry" />
+        <mxCell id="per_o" parent="perssvc" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;whiteSpace=wrap;" value="+ guardar(pacRepo, odoRepo, secRepo, turnRepo): void&#xa;+ cargarPacientes(): PacienteRepository&#xa;+ cargarOdontologos(): OdontologoRepository&#xa;+ cargarSecretarias(): SecretariaRepository&#xa;+ cargarTurnos(pacRepo, odoRepo, secRepo): TurnoRepository&#xa;- guardarPacientes(repo: PacienteRepository): void&#xa;- guardarOdontologos(repo: OdontologoRepository): void&#xa;- guardarSecretarias(repo: SecretariaRepository): void&#xa;- guardarTurnos(repo: TurnoRepository): void" vertex="1">
+          <mxGeometry height="254" width="420" y="146" as="geometry" />
         </mxCell>
 
         <!-- ── VIEW ── -->
