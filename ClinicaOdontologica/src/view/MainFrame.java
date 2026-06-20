@@ -81,7 +81,6 @@ public class MainFrame extends JFrame {
                 } else if (opcion == JOptionPane.NO_OPTION) {
                     dispose();
                 }
-                // CANCEL: no hace nada, la ventana permanece abierta
             }
         });
     }

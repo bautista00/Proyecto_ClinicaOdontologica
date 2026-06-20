@@ -2,7 +2,6 @@ package repository;
 
 import entity.Turno;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -10,9 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TurnoRepository implements IRepository<Turno>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TurnoRepository implements IRepository<Turno> {
 
     private Map<Long, Turno> turnos;
 

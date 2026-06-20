@@ -2,15 +2,12 @@ package repository;
 
 import entity.Odontologo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OdontologoRepository implements IRepository<Odontologo>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class OdontologoRepository implements IRepository<Odontologo> {
 
     private Map<Long, Odontologo> odontologos;
 

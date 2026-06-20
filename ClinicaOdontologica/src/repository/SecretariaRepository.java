@@ -2,15 +2,12 @@ package repository;
 
 import entity.Secretaria;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SecretariaRepository implements IRepository<Secretaria>, Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class SecretariaRepository implements IRepository<Secretaria> {
 
     private Map<Long, Secretaria> secretarias;
 
