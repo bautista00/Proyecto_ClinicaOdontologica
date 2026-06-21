@@ -1,11 +1,14 @@
 package service;
 
 import entity.Domicilio;
+import entity.EstadoTurno;
 import entity.Paciente;
+import entity.Turno;
 import exception.DatoInvalidoException;
 import exception.PacienteNoEncontradoException;
 import repository.PacienteRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,12 +94,28 @@ public class PacienteServiceImpl implements IService<Paciente> {
             throw new DatoInvalidoException("El ID del paciente debe ser un numero positivo.");
         }
 
-        if (pacienteRepository.buscarPorId(id) == null) {
+        Paciente paciente = pacienteRepository.buscarPorId(id);
+        if (paciente == null) {
             throw new PacienteNoEncontradoException("No existe un paciente con ID " + id + ".");
+        }
+
+        if (tieneTurnosFuturos(paciente.getHistorialPaciente())) {
+            throw new DatoInvalidoException(
+                    "No se puede eliminar el paciente porque tiene turnos a futuro. " +
+                    "Cancele o complete esos turnos antes de eliminarlo.");
         }
 
         pacienteRepository.eliminar(id);
         return true;
+    }
+
+    // Hay turno a futuro si su fecha es hoy o posterior y sigue activo (PENDIENTE o CONFIRMADO)
+    private boolean tieneTurnosFuturos(List<Turno> turnos) {
+        if (turnos == null) return false;
+        LocalDate hoy = LocalDate.now();
+        return turnos.stream().anyMatch(t ->
+                !t.getFecha().isBefore(hoy)
+                && (t.getEstado() == EstadoTurno.PENDIENTE || t.getEstado() == EstadoTurno.CONFIRMADO));
     }
 
     private void validarPaciente(Paciente paciente) {

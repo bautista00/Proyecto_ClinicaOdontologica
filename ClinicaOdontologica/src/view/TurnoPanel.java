@@ -194,15 +194,17 @@ public class TurnoPanel extends JPanel {
         JButton btnPorOdontologo = new JButton("Filtrar por Odontólogo");
         JButton btnPorSecretaria = new JButton("Filtrar por Secretaria");
         JButton btnPorFechas     = new JButton("Filtrar por Fechas");
+        JButton btnPorEstado     = new JButton("Filtrar por Estado");
 
         btnVerTodos.addActionListener(e      -> cargarTabla(turnoController.listarTurnos()));
         btnPorPaciente.addActionListener(e   -> filtrarPorPaciente());
         btnPorOdontologo.addActionListener(e -> filtrarPorOdontologo());
         btnPorSecretaria.addActionListener(e -> filtrarPorSecretaria());
         btnPorFechas.addActionListener(e     -> filtrarPorFechas());
+        btnPorEstado.addActionListener(e     -> filtrarPorEstado());
 
         fila2.add(btnVerTodos); fila2.add(btnPorPaciente); fila2.add(btnPorOdontologo);
-        fila2.add(btnPorSecretaria); fila2.add(btnPorFechas);
+        fila2.add(btnPorSecretaria); fila2.add(btnPorFechas); fila2.add(btnPorEstado);
 
         panel.add(fila1);
         panel.add(fila2);
@@ -358,6 +360,23 @@ public class TurnoPanel extends JPanel {
             cargarTabla(turnoController.listarTurnosPorSecretaria(Long.parseLong(input.trim())));
         } catch (NumberFormatException e) {
             mostrarError("Ingrese un ID numérico.");
+        } catch (ClinicaException e) {
+            mostrarError(e.getMessage());
+        }
+    }
+
+    private void filtrarPorEstado() {
+        EstadoTurno seleccionado = (EstadoTurno) JOptionPane.showInputDialog(
+                this,
+                "Seleccione el estado a filtrar:",
+                "Filtrar por Estado",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                EstadoTurno.values(),
+                EstadoTurno.PENDIENTE);
+        if (seleccionado == null) return; // el usuario canceló
+        try {
+            cargarTabla(turnoController.listarTurnosPorEstado(seleccionado));
         } catch (ClinicaException e) {
             mostrarError(e.getMessage());
         }

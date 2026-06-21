@@ -1,10 +1,13 @@
 package service;
 
+import entity.EstadoTurno;
 import entity.Odontologo;
+import entity.Turno;
 import exception.DatoInvalidoException;
 import exception.OdontologoNoEncontradoException;
 import repository.OdontologoRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class OdontologoServiceImpl implements IService<Odontologo> {
@@ -83,12 +86,28 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
             throw new DatoInvalidoException("El ID del odontologo debe ser un numero positivo.");
         }
 
-        if (odontologoRepository.buscarPorId(id) == null) {
+        Odontologo odontologo = odontologoRepository.buscarPorId(id);
+        if (odontologo == null) {
             throw new OdontologoNoEncontradoException("No existe un odontologo con ID " + id + ".");
+        }
+
+        if (tieneTurnosFuturos(odontologo.getHistorialOdontologo())) {
+            throw new DatoInvalidoException(
+                    "No se puede eliminar el odontologo porque tiene turnos a futuro. " +
+                    "Cancele o complete esos turnos antes de eliminarlo.");
         }
 
         odontologoRepository.eliminar(id);
         return true;
+    }
+
+    // Hay turno a futuro si su fecha es hoy o posterior y sigue activo (PENDIENTE o CONFIRMADO)
+    private boolean tieneTurnosFuturos(List<Turno> turnos) {
+        if (turnos == null) return false;
+        LocalDate hoy = LocalDate.now();
+        return turnos.stream().anyMatch(t ->
+                !t.getFecha().isBefore(hoy)
+                && (t.getEstado() == EstadoTurno.PENDIENTE || t.getEstado() == EstadoTurno.CONFIRMADO));
     }
 
     private void validarOdontologo(Odontologo odontologo) {

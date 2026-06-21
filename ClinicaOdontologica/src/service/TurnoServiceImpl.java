@@ -132,6 +132,16 @@ public class TurnoServiceImpl implements IService<Turno> {
                 .collect(Collectors.toList());
     }
 
+    public List<Turno> listarPorEstado(EstadoTurno estado) {
+        if (estado == null) {
+            throw new DatoInvalidoException("El estado a filtrar no puede ser nulo.");
+        }
+        return turnoRepository.listarTodos().stream()
+                .filter(t -> t.getEstado() == estado)
+                .sorted(POR_FECHA_HORA)
+                .collect(Collectors.toList());
+    }
+
     public List<Turno> buscarPorRangoFechas(LocalDate desde, LocalDate hasta) {
         if (desde == null || hasta == null) {
             throw new DatoInvalidoException("Las fechas 'desde' y 'hasta' no pueden ser nulas.");

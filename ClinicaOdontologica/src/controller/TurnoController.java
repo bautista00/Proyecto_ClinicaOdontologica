@@ -61,6 +61,10 @@ public class TurnoController {
         return turnoService.listarPorSecretaria(idSecretaria);
     }
 
+    public List<Turno> listarTurnosPorEstado(EstadoTurno estado) {
+        return turnoService.listarPorEstado(estado);
+    }
+
     public Turno actualizarTurno(Long idTurno,
                                  Long idOdontologo,
                                  Long idSecretaria,

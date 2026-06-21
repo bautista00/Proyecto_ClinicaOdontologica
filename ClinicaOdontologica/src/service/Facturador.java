@@ -2,6 +2,7 @@ package service;
 
 import entity.Odontologo;
 import entity.Paciente;
+import exception.DatoInvalidoException;
 
 public class Facturador {
 
@@ -9,13 +10,11 @@ public class Facturador {
 
     public Double calcularMonto(Paciente paciente, Odontologo odontologo) {
         if (paciente == null) {
-            System.out.println("Error: el paciente no puede ser nulo.");
-            return null;
+            throw new DatoInvalidoException("No se puede calcular el monto: el paciente es nulo.");
         }
 
         if (odontologo == null) {
-            System.out.println("Error: el odontologo no puede ser nulo.");
-            return null;
+            throw new DatoInvalidoException("No se puede calcular el monto: el odontologo es nulo.");
         }
 
         if (Boolean.TRUE.equals(paciente.getObraSocial())) {
